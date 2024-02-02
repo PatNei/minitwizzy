@@ -12,7 +12,7 @@
 	// "forwardPorts": [],
 
 	// Use 'postCreateCommand' to run commands after the container is created.
-	"postCreateCommand": "sudo apt install libsqlite3-dev",
+	"postCreateCommand": "sudo apt install libsqlite3-dev && sudo apt install pipx && pipx ensurepath && pipx install poetry",
 	"customizations": {
 		"vscode": {
 			"extensions": [
