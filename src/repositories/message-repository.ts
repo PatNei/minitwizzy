@@ -1,7 +1,7 @@
 import { and, desc, eq } from "drizzle-orm"
 import { db } from "src/database/db"
-import { messages } from "src/schemas/messages"
-import { users } from "src/schemas/users"
+import { Message, messages } from "src/database/schemas/messages"
+import { users } from "src/database/schemas/users"
 
 export const getMessages = async (amount = 100) =>{
     return await db.select({
@@ -30,13 +30,15 @@ export const getMessagesByUserId = async (userId:number,amount=100) => {
 
 }
 
-export const createMessage = async (userId:number,text:string,pub_date:number) => {
-    return await db.insert(messages)
-        .values({
-            author_id:userId,
-            text:text,
-            pub_date:pub_date
-        })
-        .returning({messageId:messages.message_id})
-        .onConflictDoNothing()
+export const createMessage = async (message:Omit<Message,"message_id">) => {
+    const messageDTO = await db.insert(messages)
+    .values({
+        author_id:message.author_id,
+        text:message.text,
+        pub_date:message.pub_date,
+        flagged:0
+    })
+    .returning({messageId:messages.message_id})
+    .onConflictDoNothing()
+    return  messageDTO.pop()
 }

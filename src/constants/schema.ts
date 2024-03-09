@@ -1,4 +1,4 @@
-export { followers } from "../schemas/followers";
-export { users } from "../schemas/users";
-export { messages } from "../schemas/messages";
-export { latestAction } from "../schemas/latest";
+export { followers } from "../database/schemas/followers";
+export { users } from "../database/schemas/users";
+export { messages } from "../database/schemas/messages";
+export { latestAction } from "../database/schemas/latest";

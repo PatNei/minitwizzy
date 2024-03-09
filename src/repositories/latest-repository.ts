@@ -1,6 +1,6 @@
 import { eq } from "drizzle-orm"
 import { db } from "src/database/db"
-import { latestAction } from "src/schemas/latest"
+import { latestAction } from "src/database/schemas/latest"
 
 export const getLatestAction = async () => {
     return await db

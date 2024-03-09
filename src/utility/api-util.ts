@@ -1,4 +1,5 @@
 import { Context } from "hono";
+import { customHonoLogger } from "src/middleware/logging-middleware";
 import { updateLatestAction } from "src/repositories/latest-repository";
 import { ZodError } from "zod";
 
@@ -13,6 +14,8 @@ export const parseLatestAction = async (c:Context) => {
 
     
 export const throw400 = <T>(error: ZodError<T>) => {
-    return [{"status":400,"error_msg": error.issues.pop()?.message},400]
+    const errorMessage = {"status":400,"error_msg": error.issues.pop()?.message}
+    customHonoLogger(errorMessage.status.toString(),errorMessage.error_msg ?? "")
+    return [errorMessage,400]
 
 }
