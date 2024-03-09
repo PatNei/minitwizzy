@@ -17,5 +17,13 @@
 		"lineWidth": 80,
 		"lineEnding": "lf",
 		"ignore": []
+	},
+	"json":{
+		"formatter":{
+			"enabled": true
+		},
+		"parser":{
+			"allowComments": true
+		}
 	}
 }
