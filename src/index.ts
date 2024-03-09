@@ -37,7 +37,7 @@ app.use("*", async (c, next) => {
 	if (!(c.req.header("Authorization") === `Basic ${AUTHORIZATION_SIMULATOR}`)) {
 		// if (false) {
 		const error = "You are not authorized to use this resource!";
-		return c.json({ status: 403, error_msg: error }, 403);
+		throw new HTTPException(403, { message: error });
 	}
 	await next();
 });
@@ -56,12 +56,7 @@ app.use("*", async (c, next) => {
 });
 app.onError(async (err, c) => {
 	if (err instanceof HTTPException) {
-		const response = await err.getResponse();
-		customHonoLogger(
-			`HTTP Exception: ${err.status} ${
-				err.message
-			} \n ${await response.json()}`,
-		);
+		customHonoLogger(`HTTP Exception: ${err.status} ${err.message}`);
 		return c.json({ status: err.status, error_msg: err.message });
 	}
 	customHonoLogger(err.message);
