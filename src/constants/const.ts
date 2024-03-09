@@ -1,0 +1,1 @@
+export const AUTHORIZATION_SIMULATOR = "c2ltdWxhdG9yOnN1cGVyX3NhZmUh"

@@ -8,13 +8,13 @@
 @password = super_safe!
 
 ###
-POST {{baseurl}}/register?latest=1337
+POST {{baseurl}}/register?latest=2000
 Content-Type: application/json
 Connection: "close"
 Authorization: "Basic c2ltdWxhdG9yOnN1cGVyX3NhZmUh"
 
 {
-    "username": "test5",
+    "username": "test11",
     "email" : "test5@test.dk",
     "pwd": "foo"
 }

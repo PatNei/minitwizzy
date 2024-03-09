@@ -3,7 +3,7 @@ import { DefaultLogger, LogWriter } from "drizzle-orm/logger";
 /** DB SETUP DRIZZLE */
 class customDrizzleWriter implements LogWriter {
   write(message: string) {
-    customHonoLogger(message);
+    customHonoLogger("Drizzle:",message);
     // Write to file, stdout, etc.
   }
 }
