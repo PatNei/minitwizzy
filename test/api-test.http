@@ -1,7 +1,7 @@
 @hostname = localhost
 @port = 3000
 @host = {{hostname}}:{{port}}
-@baseurl = http://{{host}}
+@baseurl = http://{{host}}/api
 @contentType = application/json
 @createdAt = {{$datetime iso8601}}
 @username = simulator
@@ -10,8 +10,8 @@
 ###
 POST {{baseurl}}/register?latest=2000
 Content-Type: application/json
-Connection: "close"
-Authorization: "Basic c2ltdWxhdG9yOnN1cGVyX3NhZmUh"
+Connection: close
+Authorization: Basic c2ltdWxhdG9yOnN1cGVyX3NhZmUh
 
 {
     "username": "{{username}}",
@@ -21,8 +21,8 @@ Authorization: "Basic c2ltdWxhdG9yOnN1cGVyX3NhZmUh"
 ###
 POST {{baseurl}}/register?latest=2000
 Content-Type: application/json
-Connection: "close"
-Authorization: "Basic c2ltdWxhdG9yOnN1cGVyX3NhZmUh"
+Connection: close
+Authorization: Basic c2ltdWxhdG9yOnN1cGVyX3NhZmUh
 
 {
     "username": "b",
@@ -34,13 +34,14 @@ Authorization: "Basic c2ltdWxhdG9yOnN1cGVyX3NhZmUh"
 ###
 
 GET {{baseurl}}/latest
+Authorization: Basic c2ltdWxhdG9yOnN1cGVyX3NhZmUh
 
 ###
 
 POST {{baseurl}}/msgs/{{username}}?latest=2
 Content-Type: application/json
-Connection: "close"
-Authorization: "Basic c2ltdWxhdG9yOnN1cGVyX3NhZmUh"
+Connection: close
+Authorization: Basic c2ltdWxhdG9yOnN1cGVyX3NhZmUh
 
 {
     "content": "Blub!"
@@ -48,16 +49,21 @@ Authorization: "Basic c2ltdWxhdG9yOnN1cGVyX3NhZmUh"
 ###
 
 GET {{baseurl}}/msgs/{{username}}?latest=3
+Content-Type: application/json
+Authorization: Basic c2ltdWxhdG9yOnN1cGVyX3NhZmUh
+
 
 ###
 
 GET {{baseurl}}/fllws/{{username}}?latest=12
+Authorization: Basic c2ltdWxhdG9yOnN1cGVyX3NhZmUh
+
 ###
 
 POST {{baseurl}}/fllws/{{username}}?latest=7
 Content-Type: application/json
 Connection: "close"
-Authorization: "Basic c2ltdWxhdG9yOnN1cGVyX3NhZmUh"
+Authorization: Basic c2ltdWxhdG9yOnN1cGVyX3NhZmUh
 
 {
     "follow": "b"
@@ -67,8 +73,8 @@ Authorization: "Basic c2ltdWxhdG9yOnN1cGVyX3NhZmUh"
 
 POST {{baseurl}}/fllws/{{username}}?latest=10
 Content-Type: application/json
-Connection: "close"
-Authorization: "Basic c2ltdWxhdG9yOnN1cGVyX3NhZmUh"
+Connection: close
+Authorization: Basic c2ltdWxhdG9yOnN1cGVyX3NhZmUh
 
 {
     "unfollow": "b"

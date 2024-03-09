@@ -7,8 +7,10 @@ import {
 
 export const headerAuthorizationMiddleware = (req: HonoRequest) => {
 	// TODO: When going live this should be commented out
-	if (IS_DEVELOPMENT_MODE) return;
-	if (!(req.header("Authorization") === `Basic ${AUTHORIZATION_SIMULATOR}`)) {
+	// if (IS_DEVELOPMENT_MODE) return;
+	const authHead = `${req.header("Authorization")}`;
+	const reqHead = `Basic ${AUTHORIZATION_SIMULATOR}`;
+	if (authHead !== reqHead) {
 		// if (false) {
 		const error = "You are not authorized to use this resource!";
 		throw new HTTPException(403, { message: error });

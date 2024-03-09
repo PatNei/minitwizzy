@@ -17,12 +17,12 @@ import { PORT_NUMBER } from "./constants/const";
 const app = new Hono()
 	.use(logger(customHonoLogger))
 	.use(prettyJSON())
-	.use("*", async (c, next) => {
+	.use("/api/*", async (c, next) => {
 		headerAuthorizationMiddleware(c.req);
 		await next();
 	})
 	/** Update Latest Id Middleware */
-	.use("*", async (c, next) => {
+	.use("/api/*", async (c, next) => {
 		await updateLatestActionMiddleware(c.req);
 		await next();
 	})
