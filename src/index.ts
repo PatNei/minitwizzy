@@ -25,9 +25,9 @@ import {
 } from "./repositories/message-repository";
 import { createUser, getUserID } from "./repositories/user-repository";
 import { Bindings } from "./utility/auth-util";
-import { changeFollowRequestSchema } from "./validation/followReqValidation";
-import { msgRequestSchema } from "./validation/msgReqValidation";
-import { userRequestSchema } from "./validation/userReqValidation";
+import { changeFollowRequestSchema } from "./validation/follow-req-validation";
+import { msgRequestSchema } from "./validation/msg-req-validation";
+import { userRequestSchema } from "./validation/user-req-validation";
 /** HONO APP */
 const app = new Hono<{ Bindings: Bindings }>();
 app.use(logger(customHonoLogger));
