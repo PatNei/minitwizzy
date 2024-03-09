@@ -2,7 +2,7 @@ import { Hono } from "hono";
 import { HTTPException } from "hono/http-exception";
 import {
 	reqValidator,
-	userIdValidator,
+	usernameToIdValidator,
 } from "src/middleware/validation-middleware";
 import {
 	doesUserFollowById,
@@ -16,7 +16,7 @@ import { changeFollowRequestSchema } from "src/validation/follow-req-validation"
 const app = new Hono()
 	.post(
 		"/:username",
-		userIdValidator,
+		usernameToIdValidator,
 		reqValidator(changeFollowRequestSchema),
 		async (c) => {
 			const { userId } = c.req.valid("param");
@@ -55,7 +55,7 @@ const app = new Hono()
 			});
 		},
 	)
-	.get("/:username", userIdValidator, async (c) => {
+	.get("/:username", usernameToIdValidator, async (c) => {
 		const { userId } = c.req.valid("param");
 		const messageAmount = c.req.query("no");
 		const followers = await getFollowersByUserId(

@@ -1,36 +1,44 @@
 import { Hono } from "hono";
 import { HTTPException } from "hono/http-exception";
+import { validator } from "hono/validator";
 import {
 	reqValidator,
-	userIdValidator,
+	usernameToIdValidator,
 } from "src/middleware/validation-middleware";
 import {
 	createMessage,
 	getMessages,
 	getMessagesByUserId,
 } from "src/repositories/message-repository";
-import { msgPostSchema } from "src/validation/msg-req-validation";
+import {
+	msgGetRequestSchema,
+	msgPostRequestSchema,
+} from "src/validation/msg-req-validation";
 
 const app = new Hono()
-	.get("/", async (c) => {
-		const messageAmount = c.req.query("no");
-		const messages = await getMessages(
-			messageAmount ? Number.parseInt(messageAmount) : undefined,
-		);
+	.get("/", reqValidator(msgGetRequestSchema), async (c) => {
+		const { no, offset } = c.req.valid("json");
+		const messages = await getMessages(no, offset);
 		return c.json(messages, 200);
 	})
-	.get("/:username", userIdValidator, async (c) => {
-		const { userId } = c.req.valid("param");
-		const userMessages = await getMessagesByUserId({ userId });
+	.get(
+		"/:username",
+		usernameToIdValidator,
+		reqValidator(msgGetRequestSchema),
+		async (c) => {
+			const { userId } = c.req.valid("param");
+			const { no, offset } = c.req.valid("json");
+			const userMessages = await getMessagesByUserId({ userId }, no, offset);
 
-		return userMessages.length !== 0
-			? c.json(userMessages, 200)
-			: c.json({}, 204);
-	})
+			return userMessages.length !== 0
+				? c.json(userMessages, 200)
+				: c.json({}, 204);
+		},
+	)
 	.post(
 		"/:username",
-		userIdValidator,
-		reqValidator(msgPostSchema),
+		usernameToIdValidator,
+		reqValidator(msgPostRequestSchema),
 		async (c) => {
 			const { userId } = c.req.valid("param");
 			const { content } = c.req.valid("json");
