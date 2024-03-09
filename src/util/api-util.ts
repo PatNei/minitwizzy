@@ -1,6 +1,6 @@
 import { Context } from "hono";
 import { updateLatestAction } from "src/repositories/latest-repository";
-import { SafeParseError } from "zod";
+import { ZodError } from "zod";
 
 export const parseLatestAction = async (c:Context) => {
     const latestId = c.req.query("latest")
@@ -12,7 +12,7 @@ export const parseLatestAction = async (c:Context) => {
 }
 
     
-export const throw400 = <T>(c:Context,parsed: SafeParseError<T>) => {
-    return c.json({"status":400,"error_msg": parsed.error.issues.pop()?.message},400)
+export const throw400 = <T>(error: ZodError<T>) => {
+    return [{"status":400,"error_msg": error.issues.pop()?.message},400]
 
 }

@@ -1,15 +1,16 @@
 import { customHonoLogger } from "./middleware/logging-middleware";
-import { Hono } from "hono";
+import { Env, Hono, ValidationTargets } from "hono";
 import { prettyJSON } from "hono/pretty-json";
 import { Bindings } from "./util/auth-util";
 import { logger } from "hono/logger";
 import { validator } from 'hono/validator'
 import { getLatestAction } from "./repositories/latest-repository";
-import { userDTOSchema, userDTO } from "./types/request-types";
+import { msgDTO, userDTO } from "./types/request-types";
 import { HTTPException } from 'hono/http-exception'
 import { createUser, getUserID } from "./repositories/user-repository";
-import { parseLatestAction, throw400 } from "./util/api-util";
-import { getMessages } from "./repositories/message-repository";
+import { parseLatestAction } from "./util/api-util";
+import { getMessages, getMessagesByUserId } from "./repositories/message-repository";
+import { reqValidator } from "./middleware/validation-middleware";
 /** HONO APP */
 const app = new Hono<{ Bindings: Bindings }>();
 app.use(logger(customHonoLogger));
@@ -20,7 +21,7 @@ app.use("*", async (c,next) => {
     if(false){
         let error = "You are not authorized to use this resource!"
         return c.json({"status":403, "error_msg": error},403)
-    }
+     }
     await next()
 })
 /** Update Latest Id Middleware */
@@ -28,15 +29,20 @@ app.use("*", async (c,next) => {
     const actionParseError = await parseLatestAction(c)
     if (actionParseError) return actionParseError
     await next()
-})
-app.onError((err,c) => {
-    customHonoLogger(err.message)
+}) 
+app.onError(async (err,c) => {
+    let errorMessage:string |undefined = undefined
     if (err instanceof HTTPException){
-        return err.getResponse()
+        const response = await err.getResponse()
+        customHonoLogger(await response.json())
+        return response
+
     }
+    customHonoLogger(err.message)
     return c.text("Something went wrong",500)
     
 })
+
 
 
 /** ROUTES */
@@ -45,24 +51,15 @@ app.get("/latest", async (c) => {
     const latestAction = await getLatestAction()
     return c.json({"latest": latestAction ?? -1},200)}
 );
-app.post("/register", validator('json',(value,c) =>{
-
-    return userDTOSchema.safeParse(value)
-    
-}), async (c) => {
-
-    // TODO: Figure out how to abstract this boiler plate away, maybe by using try catch with http exceptions.
-
-    const parsed = c.req.valid("json")
-    if (!parsed.success) return throw400(c,parsed)
-    const userDTO:userDTO = parsed.data
+app.post("/register", reqValidator(userDTO), async (c) => {
+    const userDTO = c.req.valid("json")
 
     if (await getUserID(userDTO.username)){
         return c.json({"status":400,"error_msg":"The username is already taken"},400)
     }
-    let user_id = await createUser(userDTO)
+    let userId = await createUser(userDTO)
     
-    if (!user_id){
+    if (!userId){
         throw new HTTPException(500, { message: 'User not created. Something went wrong 😩'})
     }
 
@@ -71,11 +68,23 @@ app.post("/register", validator('json',(value,c) =>{
 
 app.get("/msgs", async (c) => {
    const messageAmount = c.req.query("no")
-   const messages = getMessages(messageAmount ? Number.parseInt(messageAmount) : undefined)
-    return c.json({"message":"niceness"},200)
+   const messages = await getMessages(messageAmount ? Number.parseInt(messageAmount) : undefined)
+    return c.json(messages,200)
 });
-app.get("/msgs/:username", async (c) => {return c.json({"message":"niceness"},200)});
-app.post("/msgs/:username", async (c) => {return c.json({"message":"niceness"},200)});
+app.get("/msgs/:username", async (c) => {
+    const username = c.req.param("username")
+    const userId = await getUserID(username)
+    if (!userId){
+        return c.notFound()
+    }
+    const userMessages = await getMessagesByUserId(userId)
+
+    return userMessages.length !== 0 ? c.json(userMessages ,200) : c.json({},204)
+});
+app.post("/msgs/:username", reqValidator(msgDTO), async (c) => {
+    
+
+});
 app.get("/fllws/:username", async (c) => {return c.json({"message":"niceness"},200)});
 app.post("/fllws/:username", async (c) => {return c.json({"message":"niceness"},200)});
 
