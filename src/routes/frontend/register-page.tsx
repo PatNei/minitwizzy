@@ -1,19 +1,15 @@
-import React, { useState } from 'react';
+import { FC, useState } from "hono/jsx";
 
 interface SignUpProps {
-  error?: string;
+  error : string
+  username: string
+  email: string
+  password: string
+
 }
 
-const SignUp: React.FC<SignUpProps> = ({ error }) => {
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [password2, setPassword2] = useState('');
-
-  const handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault();
-    // Handle form submission here
-  };
+const SignUp: FC<SignUpProps> = () => {
+  let signUpInfo = useState({})
 
   return (
     <div>
@@ -28,7 +24,6 @@ const SignUp: React.FC<SignUpProps> = ({ error }) => {
               name="username"
               size={30}
               value={username}
-              onChange={(e) => setUsername(e.target.value)}
             />
           </dd>
           <dt>E-Mail:</dt>
@@ -38,7 +33,6 @@ const SignUp: React.FC<SignUpProps> = ({ error }) => {
               name="email"
               size={30}
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
             />
           </dd>
           <dt>Password:</dt>
@@ -48,7 +42,6 @@ const SignUp: React.FC<SignUpProps> = ({ error }) => {
               name="password"
               size={30}
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
             />
           </dd>
           <dt>Password <small>(repeat)</small>:</dt>
@@ -58,7 +51,6 @@ const SignUp: React.FC<SignUpProps> = ({ error }) => {
               name="password2"
               size={30}
               value={password2}
-              onChange={(e) => setPassword2(e.target.value)}
             />
           </dd>
         </dl>

@@ -18,21 +18,6 @@ const Layout: React.FC<LayoutProps> = ({ title, user, flashes, children }) => {
       <body>
         <div className="page">
           <h1>MiniTwit</h1>
-          <div className="navigation">
-            {user ? (
-              <>
-                <Link to="/timeline">my timeline</Link> |
-                <Link to="/public_timeline">public timeline</Link> |
-                <Link to="/logout">sign out [{user.username}]</Link>
-              </>
-            ) : (
-              <>
-                <Link to="/public_timeline">public timeline</Link> |
-                <Link to="/register">sign up</Link> |
-                <Link to="/login">sign in</Link>
-              </>
-            )}
-          </div>
           {flashes && flashes.length > 0 && (
             <ul className="flashes">
               {flashes.map((message, index) => (
@@ -41,7 +26,7 @@ const Layout: React.FC<LayoutProps> = ({ title, user, flashes, children }) => {
             </ul>
           )}
           <div className="body">{children}</div>
-          <div className="footer">MiniTwit — A Flask Application</div>
+
         </div>
       </body>
     </html>
