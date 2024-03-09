@@ -1,8 +1,6 @@
 {
-    "sqltools.useNodeRuntime": false,
-    "python.analysis.autoImportCompletions": true,
-    "python.analysis.typeCheckingMode": "basic",
-    "python.analysis.extraPaths": [
-        "./minitwizzy"
-    ]
+	"python.analysis.autoImportCompletions": true,
+	"python.analysis.typeCheckingMode": "basic",
+	"python.analysis.extraPaths": ["./minitwizzy"],
+	"editor.defaultFormatter": "esbenp.prettier-vscode"
 }
