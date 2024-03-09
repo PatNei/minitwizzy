@@ -1,19 +1,22 @@
 {
   "packages": [
     "bun@latest",
-    "python312@latest",
-    "poetry@latest"
+    "python@latest",
+    "poetry@latest",
+    "vagrant@latest"
   ],
+  "env": {
+    "DEVBOX_PYPROJECT_DIR": "$PWD/old_project"
+  },
   "shell": {
     "init_hook": [
       "bun i",
-      "bun run migrate",
-      "bun run dev"
+      "cd old_project && poetry install && cd .."
     ],
     "scripts": {
-      "test": [
-        "echo \"Error: no test specified\" && exit 1"
-      ]
+      "dev":    "bun run migrate && bun run dev",
+      "poetry": ["cd old_project && poetry shell && deactivate"],
+      "simulator": "cd old_project && poetry run python minitwizzy/minitwit_simulator.py 'http://localhost:3000'"
     }
   }
 }

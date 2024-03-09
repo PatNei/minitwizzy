@@ -39,7 +39,7 @@
         }
       }
     },
-    "python312@latest": {
+    "python@latest": {
       "last_modified": "2024-01-27T14:55:31Z",
       "plugin_version": "0.0.3",
       "resolved": "github:NixOS/nixpkgs/160b762eda6d139ac10ae081f8f78d640dd523eb#python312",
@@ -57,6 +57,20 @@
         },
         "x86_64-linux": {
           "store_path": "/nix/store/ypbry1pg5zzl5prj35f5swzy1gir37ml-python3-3.12.1"
+        }
+      }
+    },
+    "vagrant@latest": {
+      "last_modified": "2024-02-08T11:55:47Z",
+      "resolved": "github:NixOS/nixpkgs/c0b7a892fb042ede583bdaecbbdc804acb85eabe#vagrant",
+      "source": "devbox-search",
+      "version": "2.3.7",
+      "systems": {
+        "aarch64-linux": {
+          "store_path": "/nix/store/29457cvlb2i7gkcj5d1z6s77rmy9zwd7-vagrant-2.3.7"
+        },
+        "x86_64-linux": {
+          "store_path": "/nix/store/048zzg74mhmd97ngrxn60ahikq9nwd9k-vagrant-2.3.7"
         }
       }
     }
