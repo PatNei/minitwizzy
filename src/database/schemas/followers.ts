@@ -1,4 +1,4 @@
-import { sqliteTable, integer } from "drizzle-orm/sqlite-core";
+import { integer, sqliteTable } from "drizzle-orm/sqlite-core";
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 
 export const followers = sqliteTable("follower", {

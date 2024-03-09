@@ -22,13 +22,13 @@ export const unfollowUserId = async ({ whoId, whomId }: Follower) => {
 export const doesUserFollowById = async ({ whoId, whomId }: Follower) => {
 	const follower = await db
 		.select({
-			userId:followers.whoId,
-			followerId: followers.whomId
+			userId: followers.whoId,
+			followerId: followers.whomId,
 		})
 		.from(followers)
-		.where(and(eq(followers.whoId, whoId), eq(followers.whomId, whomId)))
-	return follower.pop()
-}
+		.where(and(eq(followers.whoId, whoId), eq(followers.whomId, whomId)));
+	return follower.pop();
+};
 
 export const getFollowersByUserId = async (
 	{ userId }: Pick<User, "userId">,

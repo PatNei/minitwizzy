@@ -1,33 +1,33 @@
-import { customHonoLogger } from "./middleware/logging-middleware";
 import { Hono } from "hono";
-import { prettyJSON } from "hono/pretty-json";
-import { Bindings } from "./utility/auth-util";
-import { logger } from "hono/logger";
-import {
-	getLatestAction,
-	updateLatestAction,
-} from "./repositories/latest-repository";
 import { HTTPException } from "hono/http-exception";
-import { createUser, getUserID } from "./repositories/user-repository";
-import {
-	createMessage,
-	getMessages,
-	getMessagesByUserId,
-} from "./repositories/message-repository";
+import { logger } from "hono/logger";
+import { prettyJSON } from "hono/pretty-json";
+import { AUTHORIZATION_SIMULATOR } from "./constants/const";
+import { customHonoLogger } from "./middleware/logging-middleware";
 import {
 	reqValidator,
 	userIdValidator,
 } from "./middleware/validation-middleware";
-import { userRequestSchema } from "./validation/userReqValidation";
-import { msgRequestSchema } from "./validation/msgReqValidation";
-import { changeFollowRequestSchema } from "./validation/followReqValidation";
 import {
 	doesUserFollowById,
 	followUserId,
 	getFollowersByUserId,
 	unfollowUserId,
 } from "./repositories/follower-repository";
-import { AUTHORIZATION_SIMULATOR } from "./constants/const";
+import {
+	getLatestAction,
+	updateLatestAction,
+} from "./repositories/latest-repository";
+import {
+	createMessage,
+	getMessages,
+	getMessagesByUserId,
+} from "./repositories/message-repository";
+import { createUser, getUserID } from "./repositories/user-repository";
+import { Bindings } from "./utility/auth-util";
+import { changeFollowRequestSchema } from "./validation/followReqValidation";
+import { msgRequestSchema } from "./validation/msgReqValidation";
+import { userRequestSchema } from "./validation/userReqValidation";
 /** HONO APP */
 const app = new Hono<{ Bindings: Bindings }>();
 app.use(logger(customHonoLogger));
@@ -169,7 +169,6 @@ app.post(
 			message: `Something went wrong when trying to ${
 				isFollowAction ? "follow" : "unfollow"
 			} user`,
-			res: c.res,
 		});
 	},
 );

@@ -1,8 +1,8 @@
 import { zValidator } from "@hono/zod-validator";
-import z from "zod";
+import { HTTPException } from "hono/http-exception";
 import { validator } from "hono/validator";
 import { getUserID } from "src/repositories/user-repository";
-import { HTTPException } from "hono/http-exception";
+import z from "zod";
 
 /** Love my curry */
 export const reqValidator = <T extends z.ZodTypeAny>(schema: T) => {
