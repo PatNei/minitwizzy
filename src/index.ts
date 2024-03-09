@@ -5,9 +5,10 @@ import { Bindings } from "./util/authutil";
 import { logger } from "hono/logger";
 import { validator } from 'hono/validator'
 import { getLatestTweet } from "./repositories/latest-tweet-repository";
-import { registerRequestSchema } from "./types/request-types";
+import { registerSchema } from "./types/request-types";
 import { HTTPException } from 'hono/http-exception'
-
+import { createUser, getUserID } from "./repositories/user-repository";
+import { Password, password } from "bun";
 /** HONO APP */
 const app = new Hono<{ Bindings: Bindings }>();
 app.use(logger(customHonoLogger));
@@ -21,6 +22,16 @@ app.use("*", async (c,next) => {
     }
     await next()
 })
+app.onError((err,c) => {
+    console.error(err)
+    if (err instanceof HTTPException){
+        return err.getResponse()
+        
+    }
+    return c.text("Something went wrong",500)
+    
+})
+
 
 /** ROUTES */
 app.get("/", async (c) => {return c.json({"message":"niceness"},200)});
@@ -29,21 +40,28 @@ app.get("/latest", async (c) => {
     return c.json({"latest": latestTweet?.tweetId ?? -1},200)}
 );
 app.post("/register", validator('json',(value,c) =>{
-    const parsed = registerRequestSchema.safeParse(value)
+    const parsed = registerSchema.safeParse(value)
 
     if (!parsed.success){
        return c.json({"status":400,"error_msg":parsed.error.issues.pop()?.message},400)
     }
     return parsed.data
 
+}), async (c) => {
+    const {body} = c.req.valid('json')
+    if (await getUserID(body.username)){
+        return c.json({"status":400,"error_msg":"The username is already taken"},400)
+    }
+    let user_id = await createUser(body)
     
-}) ,async (c) => {
-    const {body} =c.req.valid('json')
-
+    if (!user_id){
+        throw new HTTPException(500, { message: 'User not created. Something went wrong 😩'})
+    }
     // TODO: Add Registration
 
-    return c.json({"message":"niceness"},200)
+    return c.json({},204)
 });
+
 app.get("/msgs", async (c) => {return c.json({"message":"niceness"},200)});
 app.get("/msgs/:username", async (c) => {return c.json({"message":"niceness"},200)});
 app.post("/msgs/:username", async (c) => {return c.json({"message":"niceness"},200)});
