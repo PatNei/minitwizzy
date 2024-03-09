@@ -9,3 +9,4 @@ node_modules
 latest_processed_sim_action_id.txt
 src/index.js
 tmp
+.env
