@@ -1,0 +1,10 @@
+version: '3'
+services:
+  minitwizzy:
+    container_name: minitwizzy-test
+    restart: unless-stopped
+    image: ghcr.io/patnei/minitwizzy:latest
+    ports:
+      - 2400:3000
+    environment:
+      - DB_ENV=${DB_PATH}

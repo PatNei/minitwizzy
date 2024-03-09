@@ -18,7 +18,12 @@
     "scripts": {
       "dev":       "bun run dev",
       "poetry":    ["cd old_project && poetry shell && deactivate"],
-      "simulator": "cd old_project && poetry run python minitwizzy/minitwit_simulator.py \"http://localhost:3000/api\""
+      "simulator": "cd old_project && poetry run python minitwizzy/minitwit_simulator.py \"http://localhost:3000/api\"",
+      "docker:debug": "cd dockerfiles && DOCKER_BUILDKIT=0 docker compose up --build",
+      "docker:build": "cd dockerfiles && docker compose build && docker compose push",
+      "docker:run": "cd dockerfiles && docker compose up -d",
+      "docker:prune": "docker system prune --all --force"
     }
+
   }
 }
