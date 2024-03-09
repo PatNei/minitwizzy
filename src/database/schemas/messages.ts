@@ -1,5 +1,4 @@
 import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
-import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 
 export const messages = sqliteTable("message", {
 	messageId: integer("messageId").primaryKey({ autoIncrement: true }),
@@ -11,5 +10,3 @@ export const messages = sqliteTable("message", {
 
 export type Message = typeof messages.$inferSelect;
 export type InsertMessage = typeof messages.$inferInsert;
-export const insertMessageSchema = createInsertSchema(messages);
-export const selectMessageSchema = createSelectSchema(messages);
