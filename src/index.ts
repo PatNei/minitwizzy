@@ -11,7 +11,6 @@ import { createMessage, getMessages, getMessagesByUserId } from "./repositories/
 import { reqValidator, userIdValidator } from "./middleware/validation-middleware";
 import { userDTO } from "./validation/userReqValidation";
 import { msgDTO } from "./validation/msgReqValidation";
-import { validator } from "hono/validator";
 /** HONO APP */
 const app = new Hono<{ Bindings: Bindings }>();
 app.use(logger(customHonoLogger));
