@@ -10,6 +10,7 @@ import latestRoute from "./routes/api/latest-route";
 import messageRoute from "./routes/api/message-route";
 import registerRoute from "./routes/api/register-route";
 import indexPage from "./routes/frontend/index-page";
+import { PORT_NUMBER } from "./constants/const";
 
 /** HONO APP */
 
@@ -37,5 +38,8 @@ const routes = app
 	.route("/api/latest", latestRoute)
 	.route("/", indexPage);
 
-export default app;
+export default {
+	port: PORT_NUMBER,
+	fetch: app.fetch,
+};
 export type RPCType = typeof routes;
