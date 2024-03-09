@@ -1,9 +1,20 @@
 import { Hono } from 'hono'
 import { Database } from 'bun:sqlite';
 import { drizzle } from 'drizzle-orm/bun-sqlite';
+import { DefaultLogger, LogWriter } from 'drizzle-orm/logger';
 
-const sqlite = new Database('sqlite.db');
-const db = drizzle(sqlite);
+
+class MyLogWriter implements LogWriter {
+  write(message: string) {
+    // Write to file, stdout, etc.
+  }
+}
+const logger = new DefaultLogger({ writer: new MyLogWriter() });
+
+
+const sqlite = new Database('/tmp/sqlite.db');
+
+const db = drizzle(sqlite, {logger});
 
 const app = new Hono()
 
