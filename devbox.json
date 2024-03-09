@@ -7,6 +7,7 @@
   "shell": {
     "init_hook": [
       "bun i",
+      "bun run migrate",
       "bun run dev"
     ],
     "scripts": {
