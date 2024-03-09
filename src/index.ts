@@ -1,9 +1,8 @@
 import { customHonoLogger } from "./middleware/logging-middleware";
-import { Env, Hono, ValidationTargets } from "hono";
+import { Hono } from "hono";
 import { prettyJSON } from "hono/pretty-json";
 import { Bindings } from "./util/auth-util";
 import { logger } from "hono/logger";
-import { validator } from 'hono/validator'
 import { getLatestAction } from "./repositories/latest-repository";
 import { msgDTO, userDTO } from "./types/request-types";
 import { HTTPException } from 'hono/http-exception'
