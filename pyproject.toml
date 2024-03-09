@@ -10,6 +10,8 @@ python = "^3.12"
 Flask = "^3.0.0"
 werkzeug = "^3.0.0"
 jinja2 = "^3.0.0"
+requests = "^2.31.0"
+pytest = "^8.0.0"
 
 
 [build-system]
