@@ -5,6 +5,7 @@
     "generate": "bun drizzle-kit generate:sqlite --config=drizzle.config.ts",
     "push": "bun drizzle-kit push:sqlite --config=drizzle.config.ts",
     "migrate": "bun ./src/database/migrate.ts",
+    "seed": "bun ./src/database/seed.ts",
     "check": "bun drizzle-kit check:sqlite --config=drizzle.config.ts",
     "studio": "bun drizzle-kit studio --port 3001 --verbose"
   },

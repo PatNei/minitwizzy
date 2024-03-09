@@ -8,19 +8,52 @@
 @password = super_safe!
 
 ###
-POST {{baseurl}}/register
-User-Agent: rest-client
+POST {{baseurl}}/register?latest=1337
 Content-Type: application/json
+Connection: "close"
+Authorization: "Basic c2ltdWxhdG9yOnN1cGVyX3NhZmUh"
 
-"data" = {
-    "username": "test",
-    "email" : "test@test",
+{
+    "username": "test5",
+    "email" : "test5@test.dk",
     "pwd": "foo"
 }
-"params" = {"latest":1337}
 
 ###
 
 GET {{baseurl}}/latest
 
 ###
+
+POST {{baseurl}}/msgs/{{username}}?latest=2
+Content-Type: application/json
+Connection: "close"
+Authorization: "Basic c2ltdWxhdG9yOnN1cGVyX3NhZmUh"
+
+{
+    "content": "Blub!"
+}
+
+GET {{baseurl}}/latest
+
+###
+
+POST {{baseurl}}/fllws/{{username}}?latest=7
+Content-Type: application/json
+Connection: "close"
+Authorization: "Basic c2ltdWxhdG9yOnN1cGVyX3NhZmUh"
+
+{
+    "follow": "b"
+}
+
+###
+
+POST {{baseurl}}/fllws/{{username}}?latest=10
+Content-Type: application/json
+Connection: "close"
+Authorization: "Basic c2ltdWxhdG9yOnN1cGVyX3NhZmUh"
+
+{
+    "unfollow": "b"
+}

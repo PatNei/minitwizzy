@@ -5,5 +5,13 @@
 		"./minitwizzy",
 		"./old_project/minitwizzy"
 	],
-	"editor.defaultFormatter": "esbenp.prettier-vscode"
+	"editor.defaultFormatter": "esbenp.prettier-vscode",
+	"sqltools.connections": [
+		{
+			"previewLimit": 50,
+			"driver": "SQLite",
+			"name": "twizzy",
+			"database": "${workspaceFolder:minitwizzy}/src/database/tmp/minitwit.db"
+		}
+	]
 }

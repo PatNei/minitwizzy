@@ -1,11 +1,12 @@
 {
   "compilerOptions": {
+    "module": "NodeNext",
     "strict": true,
     "jsx": "react-jsx",
     "jsxImportSource": "hono/jsx",
     "baseUrl": "./",
     "target": "ESNext",
-    "moduleResolution": "Node16"
+    "moduleResolution": "NodeNext"
   },
   "types": [
     "bun-types" // add Bun global

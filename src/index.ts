@@ -4,11 +4,10 @@ import { prettyJSON } from "hono/pretty-json";
 import { Bindings } from "./util/authutil";
 import { logger } from "hono/logger";
 import { validator } from 'hono/validator'
-import { getLatestAction } from "./repositories/latest-tweet-repository";
-import { registerSchema } from "./types/request-types";
+import { getLatestAction, updateLatestAction } from "./repositories/latest-repository";
+import { userDTOSchema, userDTO } from "./types/request-types";
 import { HTTPException } from 'hono/http-exception'
 import { createUser, getUserID } from "./repositories/user-repository";
-import { Password, password } from "bun";
 /** HONO APP */
 const app = new Hono<{ Bindings: Bindings }>();
 app.use(logger(customHonoLogger));
@@ -37,28 +36,32 @@ app.onError((err,c) => {
 app.get("/", async (c) => {return c.json({"message":"niceness"},200)});
 app.get("/latest", async (c) => {
     const latestAction = await getLatestAction()
-    return c.json({"latest": latestAction?.actionId ?? -1},200)}
+    console.log(`What is the latest action: ${latestAction}`)
+    return c.json({"latest": latestAction ?? -1},200)}
 );
 app.post("/register", validator('json',(value,c) =>{
-    console.log(value)
-    const parsed = registerSchema.safeParse(value)
+    const parsed = userDTOSchema.safeParse(value)
 
     if (!parsed.success){
-       return c.json({"status":400,"error_msg":parsed.error.issues.pop()?.message},400)
+       return c.json({"status":400,"error_msg": parsed.error.issues.pop()?.message},400)
     }
     return parsed.data
 
 }), async (c) => {
-    const {body} = c.req.valid('json')
-    if (await getUserID(body.username)){
+    const latestId = c.req.query("latest")
+    if (await updateLatestAction(latestId) === -1){
+        return c.json({"status":400,"error_msg":"Invalid latest query string param."},400)
+    }
+    const userDTO:userDTO = c.req.valid('json')
+
+    if (await getUserID(userDTO.username)){
         return c.json({"status":400,"error_msg":"The username is already taken"},400)
     }
-    let user_id = await createUser(body)
+    let user_id = await createUser(userDTO)
     
     if (!user_id){
         throw new HTTPException(500, { message: 'User not created. Something went wrong 😩'})
     }
-    // TODO: Add Registration
 
     return c.json({},204)
 });

@@ -4,7 +4,7 @@ CREATE TABLE `follower` (
 );
 --> statement-breakpoint
 CREATE TABLE `LatestAction` (
-	`id` integer PRIMARY KEY DEFAULT 0 NOT NULL,
+	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
 	`actionId` integer NOT NULL
 );
 --> statement-breakpoint

@@ -2,7 +2,7 @@ import { sqliteTable, integer } from "drizzle-orm/sqlite-core";
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 
 export const latestAction = sqliteTable("LatestAction", {
-  id: integer("id").primaryKey().default(0),
+  id: integer("id").primaryKey({autoIncrement:true}),
   actionId: integer("actionId").notNull(),
 });
 

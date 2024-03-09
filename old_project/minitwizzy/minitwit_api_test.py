@@ -18,17 +18,20 @@ HEADERS = {'Connection': 'close',
            f'Authorization': f'Basic {ENCODED_CREDENTIALS}'}
 
 
-def init_db():
+def init_db(schema):
     """Creates the database tables."""
     with closing(sqlite3.connect(DATABASE)) as db:
-        with open("schema.sql") as fp:
+        with open(schema) as fp:
             db.cursor().executescript(fp.read())
         db.commit()
 
 
 # Empty the database and initialize the schema again
+Path("/tmp/").mkdir(exist_ok=True)
+Path("/tmp/minitwit.db").touch()
 Path(DATABASE).unlink()
-init_db()
+schema = Path().cwd().joinpath("schema.sql")
+init_db(schema)
 
 
 def test_latest():
@@ -196,3 +199,5 @@ def test_a_unfollows_b():
     response = requests.get(f'{BASE_URL}/latest', headers=HEADERS)
     assert response.json()['latest'] == 11
 
+if __name__ == "__main__":
+    test_latest()

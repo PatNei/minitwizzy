@@ -6,8 +6,6 @@ const userDTO = z.object({
     pwd: z.string({required_error:"You have to enter a password"})
 })
 
-export const registerSchema = z.object({
-    body: userDTO,
-  })
+export const userDTOSchema = userDTO
 
 export type userDTO = z.infer<typeof userDTO>

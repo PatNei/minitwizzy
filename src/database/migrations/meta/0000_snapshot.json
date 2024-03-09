@@ -1,7 +1,7 @@
 {
   "version": "5",
   "dialect": "sqlite",
-  "id": "42e22274-84e0-4678-932f-481237bcecab",
+  "id": "5b58b6a4-00cd-449a-9295-96ed41013bde",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "follower": {
@@ -35,8 +35,7 @@
           "type": "integer",
           "primaryKey": true,
           "notNull": true,
-          "autoincrement": false,
-          "default": 0
+          "autoincrement": true
         },
         "actionId": {
           "name": "actionId",
