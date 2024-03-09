@@ -31,7 +31,6 @@ app.use("*", async (c,next) => {
     await next()
 }) 
 app.onError(async (err,c) => {
-    let errorMessage:string |undefined = undefined
     if (err instanceof HTTPException){
         const response = await err.getResponse()
         customHonoLogger(await response.json())
