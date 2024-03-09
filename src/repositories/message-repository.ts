@@ -6,39 +6,39 @@ import { users } from "src/database/schemas/users"
 export const getMessages = async (amount = 100) =>{
     return await db.select({
             content:messages.text,
-            pub_date:messages.pub_date,
+            pubDate:messages.pubDate,
             user:users.username
         })
         .from(messages)
         .where(eq(messages.flagged,0))
-        .leftJoin(users,eq(messages.author_id,users.user_id))
-        .orderBy(desc(messages.pub_date))
+        .leftJoin(users,eq(messages.authorId,users.userId))
+        .orderBy(desc(messages.pubDate))
         .limit(amount)
 }
 
 export const getMessagesByUserId = async (userId:number,amount=100) => {
     return await db.select({
         content:messages.text,
-        pub_date:messages.pub_date,
+        pubDate:messages.pubDate,
         user:users.username
     })
     .from(messages)
-    .leftJoin(users,eq(messages.author_id,users.user_id))
-    .where(and(eq(messages.flagged,0),eq(users.user_id,userId)))
-    .orderBy(desc(messages.pub_date))
+    .leftJoin(users,eq(messages.authorId,users.userId))
+    .where(and(eq(messages.flagged,0),eq(users.userId,userId)))
+    .orderBy(desc(messages.pubDate))
     .limit(amount)
 
 }
 
-export const createMessage = async (message:Omit<Message,"message_id">) => {
+export const createMessage = async ({authorId,text}:Omit<Message,"messageId"|"pubDate"|"flagged">) => {
     const messageDTO = await db.insert(messages)
     .values({
-        author_id:message.author_id,
-        text:message.text,
-        pub_date:message.pub_date,
+        authorId:authorId,
+        text:text,
+        pubDate: Date.UTC(Date.now()),
         flagged:0
     })
-    .returning({messageId:messages.message_id})
+    .returning({messageId:messages.messageId})
     .onConflictDoNothing()
     return  messageDTO.pop()
 }

@@ -2,10 +2,10 @@ import { sqliteTable, text, integer } from "drizzle-orm/sqlite-core";
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 
 export const messages = sqliteTable("message", {
-  message_id: integer("message_id").primaryKey({ autoIncrement: true }),
-  author_id: integer("author_id").notNull(),
+  messageId: integer("messageId").primaryKey({ autoIncrement: true }),
+  authorId: integer("authorId").notNull(),
   text: text("text").notNull(),
-  pub_date: integer("pub_date"),
+  pubDate: integer("pubDate"),
   flagged: integer("flagged"),
 });
 
