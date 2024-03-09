@@ -27,15 +27,16 @@ import {
 	getFollowersByUserId,
 	unfollowUserId,
 } from "./repositories/follower-repository";
+import { AUTHORIZATION_SIMULATOR } from "./constants/const";
 /** HONO APP */
 const app = new Hono<{ Bindings: Bindings }>();
 app.use(logger(customHonoLogger));
 app.use(prettyJSON());
 app.use("*", async (c, next) => {
 	// TODO: When going live this should be commented out
-	// if (!(c.req.header("Authorization") === `Basic ${AUTHORIZATION_SIMULATOR}`)){
-	if (false) {
-		let error = "You are not authorized to use this resource!";
+	if (!(c.req.header("Authorization") === `Basic ${AUTHORIZATION_SIMULATOR}`)) {
+		// if (false) {
+		const error = "You are not authorized to use this resource!";
 		return c.json({ status: 403, error_msg: error }, 403);
 	}
 	await next();
@@ -57,7 +58,9 @@ app.onError(async (err, c) => {
 	if (err instanceof HTTPException) {
 		const response = await err.getResponse();
 		customHonoLogger(
-			`HTTP Exception:${err.status} ${err.message} \n ${await response.json()}`,
+			`HTTP Exception: ${err.status} ${
+				err.message
+			} \n ${await response.json()}`,
 		);
 		return c.json({ status: err.status, error_msg: err.message });
 	}
@@ -74,7 +77,7 @@ app.get("/latest", async (c) => {
 	return c.json({ latest: latestAction ?? -1 }, 200);
 });
 app.post("/register", reqValidator(userRequestSchema), async (c) => {
-	const { username, pwd, email } = c.req.valid("json");
+	const { username, email, pwd } = c.req.valid("json");
 
 	if (await getUserID({ username })) {
 		return c.json(
@@ -125,7 +128,7 @@ app.post(
 			throw new HTTPException(500, { message: "Something went wrong" });
 		}
 
-		return c.json("", 204);
+		return c.json({}, 204);
 	},
 );
 app.post(
@@ -154,12 +157,12 @@ app.post(
 		if (isFollowAction && !userIsAFollower) {
 			const success = await followUserId({ whoId: userId, whomId: whomId });
 
-			if (success) return c.json("", 204);
+			if (success) return c.json({}, 204);
 		}
 
 		if (!isFollowAction && userIsAFollower) {
 			const success = await unfollowUserId({ whoId: userId, whomId: whomId });
-			if (success) return c.json("", 204);
+			if (success) return c.json({}, 204);
 		}
 
 		throw new HTTPException(500, {
@@ -177,7 +180,7 @@ app.get("/fllws/:username", userIdValidator, async (c) => {
 		{ userId },
 		messageAmount ? Number.parseInt(messageAmount) : undefined,
 	);
-	return c.json({ follows: followers });
+	return c.json({ follows: followers }, 200);
 });
 
 export default app;
