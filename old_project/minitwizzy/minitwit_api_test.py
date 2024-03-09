@@ -3,6 +3,7 @@ import json
 import base64
 import sqlite3
 import requests
+from pathlib import Path
 from contextlib import closing
 
 
@@ -26,7 +27,7 @@ def init_db():
 
 
 # Empty the database and initialize the schema again
-os.system(f'rm {DATABASE}')
+Path(DATABASE).unlink()
 init_db()
 
 

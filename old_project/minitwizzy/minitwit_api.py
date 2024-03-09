@@ -14,14 +14,16 @@ import os
 import time
 import sqlite3
 from hashlib import md5
+from pathlib import Path
 from datetime import datetime
 from contextlib import closing
-from flask import Flask, Request, g, jsonify, abort
+from flask import Flask, request, g, jsonify, abort
 from werkzeug.security import check_password_hash, generate_password_hash
 from minitwit import connect_db, query_db, DATABASE, SECRET_KEY, init_db
 
-
-os.system(f"rm {DATABASE}")
+# Delete database for testing
+Path(DATABASE).unlink(missing_ok=True)
+Path("latest_processed_sim_action_id.txt").unlink(missing_ok=True)
 init_db()
 
 # configuration
@@ -32,18 +34,14 @@ app = Flask(__name__)
 app.config.from_object(__name__)
 
 
-# latest received 'latest' value
-LATEST = 0
-
-
-def not_req_from_simulator(request:Request):
+def not_req_from_simulator(request):
     from_simulator = request.headers.get("Authorization")
     if from_simulator != "Basic c2ltdWxhdG9yOnN1cGVyX3NhZmUh":
         error = "You are not authorized to use this resource!"
         return jsonify({"status": 403, "error_msg": error}), 403
 
 
-def get_user_id(username:str):
+def get_user_id(username):
     user_id = query_db(
         "SELECT user.user_id FROM user WHERE username = ?", [username], one=True
     )
@@ -66,25 +64,32 @@ def after_request(response):
     return response
 
 
-def update_latest(request: Request):
-    global LATEST
-    try_latest = request.args.get("latest", type=int, default=-1)
-    LATEST = try_latest if try_latest is not -1 else LATEST
+def update_latest(request: request):
+    parsed_command_id = request.args.get("latest", type=int, default=-1)
+    if parsed_command_id != -1:
+        with open("./latest_processed_sim_action_id.txt", "w") as fp:
+            fp.write(str(parsed_command_id))
 
 
 # get the latest value
 @app.route("/latest", methods=["GET"])
 def get_latest():
-    global LATEST
-    return jsonify({"latest": LATEST})
+    with open("./latest_processed_sim_action_id.txt") as fp:
+        content = fp.read()
+
+    try:
+        latest_processed_command_id = int(content)
+    except:
+        latest_processed_command_id = -1
+    return jsonify({"latest": latest_processed_command_id})
 
 
 @app.route("/register", methods=["POST"])
-def register(request:Request):
-    # update LATEST
+def register():
     update_latest(request)
 
     request_data = request.json
+
     error = None
     if request.method == "POST":
         if not request_data["username"]:
@@ -116,7 +121,6 @@ def register(request:Request):
 
 @app.route("/msgs", methods=["GET"])
 def messages():
-    # update LATEST
     update_latest(request)
 
     not_from_sim_response = not_req_from_simulator(request)
@@ -144,7 +148,6 @@ def messages():
 
 @app.route("/msgs/<username>", methods=["GET", "POST"])
 def messages_per_user(username):
-    # update LATEST
     update_latest(request)
 
     not_from_sim_response = not_req_from_simulator(request)
@@ -158,7 +161,7 @@ def messages_per_user(username):
         if not user_id:
             abort(404)
 
-        query = """SELECT message.*, user.* FROM message, user 
+        query = """SELECT message.*, user.* FROM message, user
                    WHERE message.flagged = 0 AND
                    user.user_id = message.author_id AND user.user_id = ?
                    ORDER BY message.pub_date DESC LIMIT ?"""
@@ -189,7 +192,6 @@ def messages_per_user(username):
 
 @app.route("/fllws/<username>", methods=["GET", "POST"])
 def follow(username):
-    # update LATEST
     update_latest(request)
 
     not_from_sim_response = not_req_from_simulator(request)
