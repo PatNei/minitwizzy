@@ -2,7 +2,8 @@ import { testClient } from "hono/testing";
 import latestActionRoute from "src/routes/api/latest-route";
 
 test("test", async () => {
-	const res = await testClient(latestActionRoute);
+	const res: typeof latestActionRoute =
+		await testClient(latestActionRoute).search.$get();
 
 	expect(await res.json()).toEqual({ hello: "world" });
 });
