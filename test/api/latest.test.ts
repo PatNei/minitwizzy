@@ -1,11 +1,10 @@
-import { testClient } from "hono/testing";
-import latestActionRoute from "src/routes/api/latest-route";
+import app from "src/routes/api/latest-route.js";
+
+process.env.DB_TESTING = "true";
 
 test("test", async () => {
-	const res: typeof latestActionRoute =
-		await testClient(latestActionRoute).search.$get();
-
-	expect(await res.json()).toEqual({ hello: "world" });
+	const res = await app.request("/");
+	expect(await res.json()).toEqual({ hello: -1 });
 });
 describe("Example", () => {
 	test("GET /posts", async () => {
