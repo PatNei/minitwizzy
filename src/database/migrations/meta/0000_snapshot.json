@@ -1,7 +1,7 @@
 {
   "version": "5",
   "dialect": "sqlite",
-  "id": "4710368d-0c2d-4e00-8997-58b96e95daa2",
+  "id": "d73a58a7-0172-45db-923b-1b6be1b4fffa",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "follower": {

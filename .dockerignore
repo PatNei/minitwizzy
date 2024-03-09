@@ -1,7 +1,7 @@
 *
 !src
-migrations
-tmp
+./src/database/tmp
+./src/database/migrations
 !drizzle.config.ts
 !package.json
 !bun.lockb

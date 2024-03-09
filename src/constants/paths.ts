@@ -1,3 +1,3 @@
-export const DB_PATH = "./src/database/tmp/minitwit.db";
-export const MIGRATIONS_PATH = "./src/database/migrations";
-export const SCHEMA_PATH = "./src/constants/schema.ts";
+export const DB_PATH = process.env.DB_ENV ?? "/tmp/twizzy.db";
+export const MIGRATIONS_PATH = `${process.cwd()}/src/database/migrations`;
+export const SCHEMA_PATH = `${process.cwd()}/src/constants/schema.ts`;

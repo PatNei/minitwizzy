@@ -3,7 +3,7 @@ services:
   minitwizzy:
     build:
       dockerfile: dockerfiles/dockerfile
-      context: .
+      context: ../
     ports:
       - "3000:3000"
     

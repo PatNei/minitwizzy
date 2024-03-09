@@ -1,9 +1,10 @@
-FROM oven/bun
+FROM node:21-slim
 
 WORKDIR /app
 
+RUN npm -g install bun
+
 COPY package.json .
-COPY bun.lockb .
 
 RUN bun install
 
@@ -11,10 +12,12 @@ COPY src src
 COPY tsconfig.json .
 COPY drizzle.config.ts drizzle.config.ts
 
-ENV NODE_ENV production
-RUN bun run generate
+ENV NODE_ENV=production
+ENV DB_ENV=/mnt/minitwit.db
+RUN touch ${DB_ENV}
+RUN npm run generate
 RUN bun run migrate
-RUN bun run seed
+RUN bun seed
 RUN bun run build
 EXPOSE 3000
 CMD ["bun","run","index.js"]
