@@ -18,6 +18,18 @@ Authorization: "Basic c2ltdWxhdG9yOnN1cGVyX3NhZmUh"
     "email" : "{{username}}@test.dk",
     "pwd": "foo"
 }
+###
+POST {{baseurl}}/register?latest=2000
+Content-Type: application/json
+Connection: "close"
+Authorization: "Basic c2ltdWxhdG9yOnN1cGVyX3NhZmUh"
+
+{
+    "username": "b",
+    "email" : "b@test.dk",
+    "pwd": "foo"
+}
+
 
 ###
 
@@ -37,7 +49,9 @@ Authorization: "Basic c2ltdWxhdG9yOnN1cGVyX3NhZmUh"
 
 GET {{baseurl}}/msgs/{{username}}?latest=3
 
+###
 
+GET {{baseurl}}/fllws/{{username}}?latest=12
 ###
 
 POST {{baseurl}}/fllws/{{username}}?latest=7

@@ -13,5 +13,8 @@
 			"name": "twizzy",
 			"database": "${workspaceFolder:minitwizzy}/src/database/tmp/minitwit.db"
 		}
-	]
+	],
+	"[typescript]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	}
 }

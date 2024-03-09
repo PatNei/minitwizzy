@@ -12,15 +12,14 @@ export const getLatestAction = async () => {
 
 export const updateLatestAction = async ({
 	actionId,
-}: Partial<Pick<LatestAction, "actionId">>) => {
-	const parsedActionId = actionId ? actionId : -1;
+}: Pick<LatestAction, "actionId">) => {
 	return actionId
 		? await db
 				.update(latestAction)
-				.set({ actionId: parsedActionId })
+				.set({ actionId: actionId })
 				.where(eq(latestAction.id, 0))
 				.returning({ updatedActionId: latestAction.actionId })
-		: parsedActionId;
+		: -1;
 };
 
 export const createLatestAction = async (newActionId: number) => {

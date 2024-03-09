@@ -4,7 +4,7 @@ import { db } from "src/database/db";
 import { User, users } from "src/database/schemas/users";
 
 export const getUserID = async ({ username }: Pick<User, "username">) => {
-	let userId = await db
+	const userId = await db
 		.select({ id: users.userId })
 		.from(users)
 		.where(eq(users.username, username));

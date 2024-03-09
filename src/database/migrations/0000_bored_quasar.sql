@@ -1,24 +1,24 @@
 CREATE TABLE `follower` (
-	`who_id` integer,
-	`whom_id` integer
+	`whoId` integer NOT NULL,
+	`whomId` integer NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE `LatestAction` (
+CREATE TABLE `latestAction` (
 	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
 	`actionId` integer NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE `message` (
-	`message_id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
-	`author_id` integer NOT NULL,
+	`messageId` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
+	`authorId` integer NOT NULL,
 	`text` text NOT NULL,
-	`pub_date` integer,
+	`pubDate` integer,
 	`flagged` integer
 );
 --> statement-breakpoint
 CREATE TABLE `user` (
-	`user_id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
+	`userId` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
 	`username` text NOT NULL,
 	`email` text NOT NULL,
-	`pw_hash` text NOT NULL
+	`password` text NOT NULL
 );

@@ -3,10 +3,12 @@ import { Hono } from "hono";
 import { prettyJSON } from "hono/pretty-json";
 import { Bindings } from "./utility/auth-util";
 import { logger } from "hono/logger";
-import { getLatestAction } from "./repositories/latest-repository";
+import {
+	getLatestAction,
+	updateLatestAction,
+} from "./repositories/latest-repository";
 import { HTTPException } from "hono/http-exception";
 import { createUser, getUserID } from "./repositories/user-repository";
-import { parseLatestAction } from "./utility/api-util";
 import {
 	createMessage,
 	getMessages,
@@ -20,7 +22,9 @@ import { userRequestSchema } from "./validation/userReqValidation";
 import { msgRequestSchema } from "./validation/msgReqValidation";
 import { changeFollowRequestSchema } from "./validation/followReqValidation";
 import {
+	doesUserFollowById,
 	followUserId,
+	getFollowersByUserId,
 	unfollowUserId,
 } from "./repositories/follower-repository";
 /** HONO APP */
@@ -38,15 +42,24 @@ app.use("*", async (c, next) => {
 });
 /** Update Latest Id Middleware */
 app.use("*", async (c, next) => {
-	const actionParseError = await parseLatestAction(c);
-	if (actionParseError) return actionParseError;
+	const latestId = c.req.query("latest");
+	if (
+		latestId &&
+		(await updateLatestAction({ actionId: Number.parseInt(latestId) })) === -1
+	) {
+		throw new HTTPException(400, {
+			message: "Invalid latest query string param.",
+		});
+	}
 	await next();
 });
 app.onError(async (err, c) => {
 	if (err instanceof HTTPException) {
 		const response = await err.getResponse();
-		customHonoLogger(await response.json());
-		return c.json({ ...response });
+		customHonoLogger(
+			`HTTP Exception:${err.status} ${err.message} \n ${await response.json()}`,
+		);
+		return c.json({ status: err.status, error_msg: err.message });
 	}
 	customHonoLogger(err.message);
 	return c.text("Something went wrong", 500);
@@ -61,7 +74,7 @@ app.get("/latest", async (c) => {
 	return c.json({ latest: latestAction ?? -1 }, 200);
 });
 app.post("/register", reqValidator(userRequestSchema), async (c) => {
-	const { username, password, email } = c.req.valid("json");
+	const { username, pwd, email } = c.req.valid("json");
 
 	if (await getUserID({ username })) {
 		return c.json(
@@ -69,9 +82,9 @@ app.post("/register", reqValidator(userRequestSchema), async (c) => {
 			400,
 		);
 	}
-	let userId = await createUser({
+	const userId = await createUser({
 		username: username,
-		password: password,
+		password: pwd,
 		email: email,
 	});
 
@@ -126,6 +139,7 @@ app.post(
 		const username = isFollowAction ? folReq.follow : folReq.unfollow; // Bad names both gives usernames.
 
 		const whomId = await getUserID({ username });
+
 		if (!whomId)
 			throw new HTTPException(404, {
 				message: `Can't ${
@@ -133,25 +147,37 @@ app.post(
 				} user as the user does not exist`,
 			});
 
-		if (isFollowAction) {
-			followUserId({ whoId: userId, whomId: whomId });
-			return c.json("", 204);
+		const userIsAFollower = await doesUserFollowById({
+			whoId: userId,
+			whomId: whomId,
+		});
+		if (isFollowAction && !userIsAFollower) {
+			const success = await followUserId({ whoId: userId, whomId: whomId });
+
+			if (success) return c.json("", 204);
 		}
 
-		if (!isFollowAction) {
-			unfollowUserId({ whoId: userId, whomId: whomId });
-			return c.json("", 204);
+		if (!isFollowAction && userIsAFollower) {
+			const success = await unfollowUserId({ whoId: userId, whomId: whomId });
+			if (success) return c.json("", 204);
 		}
 
 		throw new HTTPException(500, {
-			message: `Something wen't wrong when trying to ${
+			message: `Something went wrong when trying to ${
 				isFollowAction ? "follow" : "unfollow"
 			} user`,
+			res: c.res,
 		});
 	},
 );
-app.get("/fllws/:username", async (c) => {
-	return c.json({ message: "niceness" }, 200);
+app.get("/fllws/:username", userIdValidator, async (c) => {
+	const { userId } = c.req.valid("param");
+	const messageAmount = c.req.query("no");
+	const followers = await getFollowersByUserId(
+		{ userId },
+		messageAmount ? Number.parseInt(messageAmount) : undefined,
+	);
+	return c.json({ follows: followers });
 });
 
 export default app;

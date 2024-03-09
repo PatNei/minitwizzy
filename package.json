@@ -7,11 +7,10 @@
     "migrate": "bun ./src/database/migrate.ts",
     "seed": "bun ./src/database/seed.ts",
     "check": "bun drizzle-kit check:sqlite --config=drizzle.config.ts",
-    "studio": "bun drizzle-kit studio --port 3001 --verbose"
+    "studio": "bun drizzle-kit studio --port 3000 --verbose"
   },
   "dependencies": {
     "@hono/zod-validator": "^0.1.11",
-    "better-sqlite3": "^9.4.1",
     "drizzle-orm": "^0.29.3",
     "drizzle-zod": "^0.5.1",
     "hono": "^4.0.0",
@@ -25,8 +24,6 @@
     "bun-types": "^1.0.26",
     "drizzle-kit": "^0.20.14",
     "eslint": "^8.56.0",
-    "node-gyp": "^10.0.1",
-    "prettier": "^3.2.5",
-    "prettier-eslint": "^16.3.0"
+    "node-gyp": "^10.0.1"
   }
 }
