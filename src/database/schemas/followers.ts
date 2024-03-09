@@ -2,8 +2,8 @@ import { sqliteTable, integer } from "drizzle-orm/sqlite-core";
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 
 export const followers = sqliteTable("follower", {
-  whoId: integer("whoId").notNull(),
-  whomId: integer("whomId").notNull(),
+	whoId: integer("whoId").notNull(),
+	whomId: integer("whomId").notNull(),
 });
 
 export type Follower = typeof followers.$inferSelect;

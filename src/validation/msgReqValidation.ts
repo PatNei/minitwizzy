@@ -1,8 +1,7 @@
-import z from "zod"
-
+import z from "zod";
 
 export const msgRequestSchema = z.object({
-    content: z.string({required_error:"Content can't be empty"})
-})
+	content: z.string({ required_error: "Content can't be empty" }),
+});
 
-export type msgDTO = z.infer<typeof msgRequestSchema>
+export type msgDTO = z.infer<typeof msgRequestSchema>;

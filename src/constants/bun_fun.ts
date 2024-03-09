@@ -1,5 +1,3 @@
 declare module "bun" {
-    interface Env {
-        
-    }
+	interface Env {}
 }
