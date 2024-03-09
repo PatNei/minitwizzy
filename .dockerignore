@@ -1,0 +1,8 @@
+*
+!src
+migrations
+tmp
+!drizzle.config.ts
+!package.json
+!bun.lockb
+!tsconfig.json

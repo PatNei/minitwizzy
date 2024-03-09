@@ -7,3 +7,4 @@ node_modules
 *.pyc
 *.db
 latest_processed_sim_action_id.txt
+src/index.js

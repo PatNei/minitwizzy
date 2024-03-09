@@ -1,6 +1,8 @@
 {
   "scripts": {
     "dev": "bun run --hot src/index.ts",
+    "build": "bun build --entrypoints ./src/index.ts --outdir . --target=bun ",
+    "pruneDocker": "docker system prune --all --force",
     "drop": "bun drizzle-kit drop --config=drizzle.config.ts",
     "generate": "bun drizzle-kit generate:sqlite --config=drizzle.config.ts",
     "push": "bun drizzle-kit push:sqlite --config=drizzle.config.ts",
@@ -21,7 +23,7 @@
     "@hono/swagger-ui": "^0.2.1",
     "@types/bun": "latest",
     "@typescript-eslint/parser": "^6.21.0",
-    "bun-types": "^1.0.26",
+    "bun-types": "^1.0.28",
     "drizzle-kit": "^0.20.14",
     "eslint": "^8.56.0",
     "node-gyp": "^10.0.1"
