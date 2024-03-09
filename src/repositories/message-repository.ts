@@ -1,7 +1,7 @@
 import { and, desc, eq } from "drizzle-orm"
 import { db } from "src/database/db"
 import { Message, messages } from "src/database/schemas/messages"
-import { users } from "src/database/schemas/users"
+import { User, users } from "src/database/schemas/users"
 
 export const getMessages = async (amount = 100) =>{
     return await db.select({
@@ -16,7 +16,7 @@ export const getMessages = async (amount = 100) =>{
         .limit(amount)
 }
 
-export const getMessagesByUserId = async (userId:number,amount=100) => {
+export const getMessagesByUserId = async ({userId}:Pick<User,"userId">,amount=100) => {
     return await db.select({
         content:messages.text,
         pubDate:messages.pubDate,

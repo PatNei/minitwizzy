@@ -74,7 +74,7 @@ app.get("/msgs", async (c) => {
 });
 app.get("/msgs/:username", userIdValidator,async (c) => {
     const {userId} = c.req.valid("param")
-    const userMessages = await getMessagesByUserId(userId)
+    const userMessages = await getMessagesByUserId({userId})
 
     return userMessages.length !== 0 ? c.json(userMessages ,200) : c.json({},204)
 });

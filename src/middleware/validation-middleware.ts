@@ -19,7 +19,7 @@ export const reqValidator = <T extends z.ZodTypeAny >(schema:T) => {
  
 export const userIdValidator =  validator("param", async (value,c) =>{
     const username = value["username"]
-    const userId = await getUserID(username)
+    const userId = await getUserID({username})
     if (!userId){
         throw new HTTPException(404,{message:"Username not found"})
     }

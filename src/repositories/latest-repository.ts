@@ -1,6 +1,6 @@
 import { eq } from "drizzle-orm"
 import { db } from "src/database/db"
-import { latestAction } from "src/database/schemas/latest"
+import { LatestAction, latestAction } from "src/database/schemas/latest"
 
 export const getLatestAction = async () => {
     return await db
@@ -10,9 +10,9 @@ export const getLatestAction = async () => {
         .pop()?.actionId
 }
 
-export const updateLatestAction = async (newActionId:string | undefined) => {
-    const parsedActionId = Number.parseInt(newActionId ? newActionId : "-1")
-    return newActionId ? 
+export const updateLatestAction = async ({actionId}:Partial<Pick<LatestAction,"actionId">>) => {
+    const parsedActionId = actionId ? actionId : -1
+    return actionId ? 
         await db
             .update(latestAction)
             .set({actionId: parsedActionId})
