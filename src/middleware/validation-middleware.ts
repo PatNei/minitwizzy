@@ -7,11 +7,13 @@ import { validator } from "hono/validator"
 import { getUserID } from "src/repositories/user-repository"
 import { HTTPException } from "hono/http-exception"
 
-export const reqValidator = (schema:z.ZodTypeAny,target:keyof ValidationTargets = "json") => {
-    return zValidator(target,schema,(result,c) =>{
+/** Love my curry */
+export const reqValidator = <T extends z.ZodTypeAny >(schema:T) => {
+    return zValidator("json",schema,(result,c) => {
      if(!result.success){
-         return c.json(throw400(result.error))
+         throw new HTTPException(400,{message:result.error.issues.pop()?.message})
         }
+        return {...result.data} as z.TypeOf<T> // Typescript magic to get typeinference
     })
  }
  
