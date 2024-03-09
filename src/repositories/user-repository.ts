@@ -4,7 +4,10 @@ import { db } from "src/database/db"
 import { users } from "src/schemas/users"
 import { userDTO } from "src/types/request-types"
 export const getUserID = async (username:string) => {
-    return (await db.select({id: users.user_id}).from(users).where(eq(users.username, username))).pop()
+    let userId = await (db.select({id: users.user_id})
+    .from(users)
+    .where(eq(users.username, username)))
+    return userId.pop()?.id
 }
 
 export const createUser = async (user:userDTO) => {
