@@ -2,7 +2,6 @@ import { and, eq } from "drizzle-orm";
 import { db } from "src/database/db";
 import { Follower, followers } from "src/database/schemas/followers";
 import { User, users } from "src/database/schemas/users";
-import { customHonoLogger } from "src/middleware/logging-middleware";
 
 export const followUserId = async ({ whoId, whomId }: Follower) => {
 	const success = await db

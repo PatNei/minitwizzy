@@ -13,7 +13,10 @@ export const drizzleLogger = new DefaultLogger({
 
 /** HONO LOGGING */
 export const customHonoLogger = (message: string, ...rest: string[]) => {
-	console.log(message, ...rest);
+	const date = new Date(Date.now());
+	console.log(
+		`Hono log (${date.toLocaleDateString("da-DK")}):`,
+		message,
+		...rest,
+	);
 };
-
-/**  */

@@ -38,12 +38,13 @@ export const createMessage = async ({
 	authorId,
 	text,
 }: Omit<Message, "messageId" | "pubDate" | "flagged">) => {
+	const time = Date.now();
 	const messageDTO = await db
 		.insert(messages)
 		.values({
 			authorId: authorId,
 			text: text,
-			pubDate: Date.UTC(Date.now()),
+			pubDate: time,
 			flagged: 0,
 		})
 		.returning({ messageId: messages.messageId })
