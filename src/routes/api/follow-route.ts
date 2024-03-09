@@ -1,7 +1,7 @@
 import { Hono } from "hono";
 import { HTTPException } from "hono/http-exception";
 import {
-	reqValidator,
+	reqValidatorJSON,
 	usernameToIdValidator,
 } from "src/middleware/validation-middleware";
 import {
@@ -11,13 +11,13 @@ import {
 	unfollowUserId,
 } from "src/repositories/follower-repository";
 import { getUserID } from "src/repositories/user-repository";
-import { changeFollowRequestSchema } from "src/validation/follow-req-validation";
+import { changeFollowRequestSchema } from "src/validation/followReqValidationSchemas";
 
 const app = new Hono()
 	.post(
 		"/:username",
 		usernameToIdValidator,
-		reqValidator(changeFollowRequestSchema),
+		reqValidatorJSON(changeFollowRequestSchema),
 		async (c) => {
 			const { userId } = c.req.valid("param");
 			const folReq = c.req.valid("json");

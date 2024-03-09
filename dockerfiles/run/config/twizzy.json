@@ -5,15 +5,15 @@
       }
     },
     "Web": {
-      "${TS_CERT_DOMAIN}:443": {
+      "minitwizzy.tailb4659.ts.net:443": {
         "Handlers": {
           "/": {
-            "Proxy": "http://localhost:3000"
+            "Proxy": "http://127.0.0.1:3000"
           }
         }
       }
     },
     "AllowFunnel": {
-      "${TS_CERT_DOMAIN}:443": true
+      "minitwizzy.tailb4659.ts.net:443": true
     }
 }

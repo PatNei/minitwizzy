@@ -7,7 +7,7 @@ export type messageDTO = Pick<Message, "messageId" | "text" | "pubDate"> & {
 	username: string | null;
 };
 
-export const getMessages = async (amount = 100, offset = 0) => {
+export const getMessages = async (no = 100, offset = 0) => {
 	const messageDTO: messageDTO[] = await db
 		.select({
 			messageId: messages.messageId,
@@ -19,14 +19,14 @@ export const getMessages = async (amount = 100, offset = 0) => {
 		.where(eq(messages.flagged, 0))
 		.leftJoin(users, eq(messages.authorId, users.userId))
 		.orderBy(desc(messages.pubDate))
-		.limit(amount)
+		.limit(no)
 		.offset(offset);
 	return messageDTO;
 };
 
 export const getMessagesByUserId = async (
 	{ userId }: Pick<User, "userId">,
-	amount = 100,
+	no = 32,
 	offset = 0,
 ) => {
 	const messageDTO: messageDTO[] = await db
@@ -41,7 +41,7 @@ export const getMessagesByUserId = async (
 		.where(and(eq(messages.flagged, 0), eq(users.userId, userId)))
 		.orderBy(desc(messages.pubDate))
 		.offset(offset)
-		.limit(amount);
+		.limit(no);
 	return messageDTO;
 };
 

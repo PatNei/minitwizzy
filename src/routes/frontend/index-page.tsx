@@ -5,8 +5,8 @@ import { html } from 'hono/html';
 import { getUser, userDTO } from 'src/repositories/user-repository';
 import { HTTPException } from 'hono/http-exception';
 import { customHonoLogger } from 'src/middleware/logging-middleware';
-import { InferRequestType, hc } from 'hono/client'
-import { RPCType } from 'src';
+import { Timeline } from './component/timeline';
+import { getAllMessages } from 'src/utility/rpc-util';
 declare module "hono" {
 	interface ContextRenderer {
 		(content: string | Promise<string>, head:siteBaseLayoutProps): Response | Promise<Response>;
@@ -50,7 +50,7 @@ app.use('*', async (c, next) => {
             {content}
           </div>
         </div>
-        <footer style={"position: absolute; bottom: 0px; margin: 0 auto; height:2.5rem ;"}>MiniTwizzy — A Flask Application</footer>
+        <footer>MiniTwizzy — A Flask Application</footer>
       </body>
     </html>
   </>
@@ -60,8 +60,12 @@ app.use('*', async (c, next) => {
 })
 
 
-app.get('/', (c) => {
-  return c.render(<h1>humlama<h2>dont worry</h2></h1>,{title:"Frontpage"})
+app.get('/', async (c) => {
+  const messages = await getAllMessages(32,0)
+  return c.render(<>
+    <Timeline messages={messages} />
+    </>
+  ,{title:"All Twizzies"})
 })
 
 

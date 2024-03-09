@@ -7,7 +7,7 @@ import {
 
 export const headerAuthorizationMiddleware = (req: HonoRequest) => {
 	// TODO: When going live this should be commented out
-	// if (IS_DEVELOPMENT_MODE) return;
+	if (IS_DEVELOPMENT_MODE) return;
 	const authHead = `${req.header("Authorization")}`;
 	const reqHead = `Basic ${AUTHORIZATION_SIMULATOR}`;
 	if (authHead !== reqHead) {

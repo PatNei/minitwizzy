@@ -1,6 +1,7 @@
 import { messageDTO } from "src/repositories/message-repository"
+import { msgRPCDTO } from "src/utility/rpc-util"
 
-export const Timeline = ({messages}:{messages:messageDTO[]}) => {
+export const Timeline = ({messages}:{messages:msgRPCDTO}) => {
 return (<>
 <ul className="messages">
         {messages.length > 0 ? (

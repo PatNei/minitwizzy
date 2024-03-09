@@ -1,5 +1,5 @@
 import { useState, type FC } from 'hono/jsx'
-import { Timeline } from './component/timeline-component';
+import { Timeline } from './component/timeline';
 import {  getMessagesByUserId } from 'src/repositories/message-repository';
 import { userDTO } from 'src/repositories/user-repository';
 import { doesUserFollowById, followUserId, unfollowUserId } from 'src/repositories/follower-repository';

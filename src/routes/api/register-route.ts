@@ -1,20 +1,19 @@
 import { Hono } from "hono";
 import { HTTPException } from "hono/http-exception";
-import { reqValidator } from "src/middleware/validation-middleware";
+import { reqValidatorJSON } from "src/middleware/validation-middleware";
 import { createUser, getUserID } from "src/repositories/user-repository";
-import { userPostRequestSchema } from "src/validation/user-req-validation";
+import { userPostRequestSchema } from "src/validation/userReqValidationSchemas";
 
 const app = new Hono().post(
 	"/",
-	reqValidator(userPostRequestSchema),
+	reqValidatorJSON(userPostRequestSchema),
 	async (c) => {
 		const { username, email, pwd } = c.req.valid("json");
 
 		if (await getUserID({ username })) {
-			return c.json(
-				{ status: 400, error_msg: "The username is already taken" },
-				400,
-			);
+			throw new HTTPException(400, {
+				message: "The username is already taken",
+			});
 		}
 		const userId = await createUser({
 			username: username,
