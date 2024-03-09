@@ -14,8 +14,8 @@ Connection: "close"
 Authorization: "Basic c2ltdWxhdG9yOnN1cGVyX3NhZmUh"
 
 {
-    "username": "test11",
-    "email" : "test5@test.dk",
+    "username": "{{username}}",
+    "email" : "{{username}}@test.dk",
     "pwd": "foo"
 }
 
@@ -33,8 +33,10 @@ Authorization: "Basic c2ltdWxhdG9yOnN1cGVyX3NhZmUh"
 {
     "content": "Blub!"
 }
+###
 
-GET {{baseurl}}/latest
+GET {{baseurl}}/msgs/{{username}}?latest=3
+
 
 ###
 
