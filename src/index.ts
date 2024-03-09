@@ -55,7 +55,7 @@ app.get("/latest", async (c) => {
 app.post("/register", reqValidator(userRequestSchema), async (c) => {
     const {username,password,email} = c.req.valid("json")
 
-    if (await getUserID(username)){
+    if (await getUserID({username})){
         return c.json({"status":400,"error_msg":"The username is already taken"},400)
     }
     let userId = await createUser({username:username,password:password,email:email})
@@ -96,7 +96,7 @@ app.post("/fllws/:username", userIdValidator,reqValidator(changeFollowRequestSch
     const isFollowAction = 'follow' in folReq
     const username = isFollowAction ? folReq.follow : folReq.unfollow // Bad names both gives usernames.
 
-    const whomId = await getUserID(username)
+    const whomId = await getUserID({username})
     if (!whomId) throw new HTTPException(404,{message:`Can't ${isFollowAction ? "follow" : "unfollow"} user as the user does not exist`})
 
     if (isFollowAction)
