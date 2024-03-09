@@ -5,7 +5,8 @@ import { html } from 'hono/html';
 import { getUser, userDTO } from 'src/repositories/user-repository';
 import { HTTPException } from 'hono/http-exception';
 import { customHonoLogger } from 'src/middleware/logging-middleware';
-
+import { InferRequestType, hc } from 'hono/client'
+import { RPCType } from 'src';
 declare module "hono" {
 	interface ContextRenderer {
 		(content: string | Promise<string>, head:siteBaseLayoutProps): Response | Promise<Response>;

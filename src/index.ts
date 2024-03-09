@@ -13,27 +13,29 @@ import indexPage from "./routes/frontend/index-page";
 
 /** HONO APP */
 
-const app = new Hono();
-app.use(logger(customHonoLogger));
-app.use(prettyJSON());
-app.use("*", async (c, next) => {
-	headerAuthorizationMiddleware(c.req);
-	await next();
-});
-/** Update Latest Id Middleware */
-app.use("*", async (c, next) => {
-	await updateLatestActionMiddleware(c.req);
-	await next();
-});
-app.onError(async (err, c) => {
-	return await apihandleErrorHono(err, c);
-});
+const app = new Hono()
+	.use(logger(customHonoLogger))
+	.use(prettyJSON())
+	.use("*", async (c, next) => {
+		headerAuthorizationMiddleware(c.req);
+		await next();
+	})
+	/** Update Latest Id Middleware */
+	.use("*", async (c, next) => {
+		await updateLatestActionMiddleware(c.req);
+		await next();
+	})
+	.onError(async (err, c) => {
+		return await apihandleErrorHono(err, c);
+	});
 
 /** ROUTES */
-app.route("/api/fllws", followRoute);
-app.route("/api/msgs", messageRoute);
-app.route("/api/register", registerRoute);
-app.route("/api/latest", latestRoute);
-app.route("/", indexPage);
+const routes = app
+	.route("/api/fllws", followRoute)
+	.route("/api/msgs", messageRoute)
+	.route("/api/register", registerRoute)
+	.route("/api/latest", latestRoute)
+	.route("/", indexPage);
 
 export default app;
+export type RPCType = typeof routes;

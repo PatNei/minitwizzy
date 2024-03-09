@@ -4,9 +4,7 @@ import { reqValidator } from "src/middleware/validation-middleware";
 import { createUser, getUserID } from "src/repositories/user-repository";
 import { userRequestSchema } from "src/validation/user-req-validation";
 
-const app = new Hono();
-
-app.post("/", reqValidator(userRequestSchema), async (c) => {
+const app = new Hono().post("/", reqValidator(userRequestSchema), async (c) => {
 	const { username, email, pwd } = c.req.valid("json");
 
 	if (await getUserID({ username })) {
