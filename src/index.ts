@@ -4,7 +4,7 @@ import { prettyJSON } from "hono/pretty-json";
 import { customHonoLogger } from "./middleware/logging-middleware";
 import { updateLatestActionMiddleware } from "./middleware/latest-middleware";
 import { headerAuthorizationMiddleware } from "./middleware/authorization-middleware";
-import { handleErrorHono } from "./utility/hono-util";
+import { apihandleErrorHono } from "./utility/hono-util";
 import followRoute from "./routes/api/follow-route";
 import latestRoute from "./routes/api/latest-route";
 import messageRoute from "./routes/api/message-route";
@@ -26,7 +26,7 @@ app.use("*", async (c, next) => {
 	await next();
 });
 app.onError(async (err, c) => {
-	return await handleErrorHono(err, c);
+	return await apihandleErrorHono(err, c);
 });
 
 /** ROUTES */

@@ -1,41 +1,50 @@
-import type { FC } from 'hono/jsx'
+import { useState, type FC } from 'hono/jsx'
+import { Timeline } from './component/timeline-component';
+import {  getMessagesByUserId } from 'src/repositories/message-repository';
+import { userDTO } from 'src/repositories/user-repository';
+import { doesUserFollowById, followUserId, unfollowUserId } from 'src/repositories/follower-repository';
 interface TimelineProps {
-  username?:string
+  loggedInUser: userDTO
+  pageUserInformation: userDTO,
+  isMyTimeline: boolean
 }
 
 
-export const UserTimeline: FC<TimelineProps> = ({username}:TimelineProps) => {
-  const currentLoggedInUser = ""
-  const isFollowing = false
-  const isMyTimeline = username === currentLoggedInUser
-  const title = isMyTimeline ? "My Timeline" : `${username}'s Timeline`
-  const messages:{id:number,email:string,username:string,text:string,pub_date:number}[] = []
+export const UserTimeline: FC<TimelineProps> = async ({loggedInUser,pageUserInformation, isMyTimeline}:TimelineProps) => {
+  const [currentPage,setCurrentPage] = useState(0) 
+  const [isFollowing,setIsFollowing] = useState(await doesUserFollowById({whoId:loggedInUser.userId,whomId:pageUserInformation.userId}) !== undefined)
+  const title = isMyTimeline ? "My Timeline" : `${pageUserInformation.username}'s Timeline`
+  const [messages,setMessages] = useState(await getMessagesByUserId({userId:pageUserInformation.userId},100,currentPage))
+
   return (
     <div>
       <h2>{title}</h2>
-      {currentLoggedInUser &&
         <div>
           {!isMyTimeline && <div>
             {isFollowing ? 
             <div>
             You are currently following this user.
-            <span onMouseDown={() => {
-              console.log("Unfollowed user")}}>Unfollow {`${username}`}</span>
+            <span onMouseDown={async () => {
+              await unfollowUserId({whoId: loggedInUser.userId,whomId:pageUserInformation.userId})
+              setIsFollowing(false)
+            }}
+              >Unfollow {`${pageUserInformation.username}`}</span>
             </div> 
             : 
             <div>
               You are not yet following this user.
-              <span onMouseDown={() => {
-                console.log("Unfollowed user")}}>follow {`${username}`}</span>
+              <span onMouseDown={async () => {
+              await followUserId({whoId: loggedInUser.userId,whomId:pageUserInformation.userId})
+              setIsFollowing(true)
+              }}>follow {`${pageUserInformation.username}`}</span>
             </div> 
             }
           </div>
           }
           {isMyTimeline && (
           <div className="twitbox">
-              <h3>What's on your mind {username}?</h3>
+              <h3>What's on your mind {pageUserInformation.username}?</h3>
               <form action="/add_message" method="post">
-
                 <p>
                   <input type="text" name="text" size={60} />
                   <input type="submit" value="Share" />
@@ -44,27 +53,16 @@ export const UserTimeline: FC<TimelineProps> = ({username}:TimelineProps) => {
             </div>
             )}
         </div>
-      }
-      <ul className="messages">
-        {messages.length > 0 ? (
-          messages.map((message) => (
-            <li key={message.id}>
-              <img src={`https://www.gravatar.com/avatar/${message.email}?s=48`} alt="" />
-              <p>
-                <strong>
-                  <a href={`/user_timeline/${message.username}`}>{message.username}</a>
-                </strong>
-                {message.text}
-                <small>— {new Date(message.pub_date).toLocaleString()}</small>
-              </p>
-            </li>
-          ))
-        ) : (
-          <li>
-            <em>There's no message so far.</em>
-          </li>
-        )}
-      </ul>
+      <Timeline messages={messages}/>
+      <div>{`Page ${currentPage}`}</div>
+      <button type='button' onClick={async () => {
+        const tempCurrentPage =  currentPage + 32
+        setCurrentPage(tempCurrentPage)
+        const newMess = await getMessagesByUserId({userId:pageUserInformation.userId},32,tempCurrentPage)
+        setMessages((current) => [...current,...newMess]) 
+      }}>
+        load more
+      </button>
     </div>
   );
 };

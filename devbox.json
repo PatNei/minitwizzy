@@ -16,7 +16,7 @@
       "cd old_project && poetry install && cd .."
     ],
     "scripts": {
-      "dev":       "bun run migrate && bun run dev",
+      "dev":       "bun run dev",
       "poetry":    ["cd old_project && poetry shell && deactivate"],
       "simulator": "cd old_project && poetry run python minitwizzy/minitwit_simulator.py \"http://localhost:3000\""
     }

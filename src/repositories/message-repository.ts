@@ -3,35 +3,46 @@ import { db } from "src/database/db";
 import { Message, messages } from "src/database/schemas/messages";
 import { User, users } from "src/database/schemas/users";
 
-export const getMessages = async (amount = 100) => {
-	return await db
+export type messageDTO = Pick<Message, "messageId" | "text" | "pubDate"> & {
+	username: string | null;
+};
+
+export const getMessages = async (amount = 100, offset = 0) => {
+	const messageDTO: messageDTO[] = await db
 		.select({
-			content: messages.text,
+			messageId: messages.messageId,
+			text: messages.text,
 			pubDate: messages.pubDate,
-			user: users.username,
+			username: users.username,
 		})
 		.from(messages)
 		.where(eq(messages.flagged, 0))
 		.leftJoin(users, eq(messages.authorId, users.userId))
 		.orderBy(desc(messages.pubDate))
-		.limit(amount);
+		.limit(amount)
+		.offset(offset);
+	return messageDTO;
 };
 
 export const getMessagesByUserId = async (
 	{ userId }: Pick<User, "userId">,
 	amount = 100,
+	offset = 0,
 ) => {
-	return await db
+	const messageDTO: messageDTO[] = await db
 		.select({
-			content: messages.text,
+			messageId: messages.messageId,
+			text: messages.text,
 			pubDate: messages.pubDate,
-			user: users.username,
+			username: users.username,
 		})
 		.from(messages)
 		.leftJoin(users, eq(messages.authorId, users.userId))
 		.where(and(eq(messages.flagged, 0), eq(users.userId, userId)))
 		.orderBy(desc(messages.pubDate))
+		.offset(offset)
 		.limit(amount);
+	return messageDTO;
 };
 
 export const createMessage = async ({

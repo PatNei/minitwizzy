@@ -1,15 +1,6 @@
 import React, { useState } from 'react';
 
 function SignIn() {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState(null);
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    // Handle form submission here
-  };
-
   return (
     <div>
       <h2>Sign In</h2>

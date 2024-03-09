@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "dev": "bun run generate && bun run --hot src/index.ts",
+    "dev": "bun run --hot src/index.ts",
     "test":"DB_TESTING=true bun test",
     "build": "bun build --entrypoints ./src/index.ts --outdir . --target=bun ",
     "drop": "bun drizzle-kit drop --config=drizzle.config.ts",

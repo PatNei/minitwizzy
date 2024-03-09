@@ -10,13 +10,13 @@ export const Navbar: FC<NavbarProps> = ({username}:NavbarProps ) => {
         {username && 
         <>
             <a href="timeline">my timeline</a> | 
-            <a href="public-timeline">public timeline</a> | 
+            <a href="public">public timeline</a> | 
             <a href="logout">sign out {username}</a>
         </>
         }
         {!username && 
             <>
-                <a href="public_timeline">public timeline</a> | 
+                <a href="public">public timeline</a> | 
                 <a href="register">sign up</a> |
                 <a href="login">sign in</a>
             </>
