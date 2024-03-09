@@ -1,5 +1,5 @@
 import { Hono } from "hono";
-import { getLatestAction } from "src/repositories/latest-repository";
+import { getLatestAction } from "src/repositories/latest-repository.js";
 
 const app = new Hono();
 

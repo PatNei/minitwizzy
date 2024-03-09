@@ -9,6 +9,7 @@ import followRoute from "./routes/api/follow-route";
 import latestRoute from "./routes/api/latest-route";
 import messageRoute from "./routes/api/message-route";
 import registerRoute from "./routes/api/register-route";
+import indexPage from "./routes/frontend/index-page";
 
 /** HONO APP */
 
@@ -33,5 +34,6 @@ app.route("/api/fllws", followRoute);
 app.route("/api/msgs", messageRoute);
 app.route("/api/register", registerRoute);
 app.route("/api/latest", latestRoute);
+app.route("/", indexPage);
 
 export default app;

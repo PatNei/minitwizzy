@@ -1,6 +1,7 @@
 {
   "scripts": {
     "dev": "bun run --hot src/index.ts",
+    "test": "jest",
     "build": "bun build --entrypoints ./src/index.ts --outdir . --target=bun ",
     "drop": "bun drizzle-kit drop --config=drizzle.config.ts",
     "generate": "bun drizzle-kit generate:sqlite --config=drizzle.config.ts",
@@ -9,8 +10,8 @@
     "seed": "bun ./src/database/seed.ts",
     "check": "bun drizzle-kit check:sqlite --config=drizzle.config.ts",
     "studio": "bun drizzle-kit studio --port 3000 --verbose",
-    "docker:debug" :"DOCKER_BUILDKIT=0 docker compose up --build",
-    "docker:build":"cd dockerfiles && docker compose up --build",
+    "docker:debug": "DOCKER_BUILDKIT=0 docker compose up --build",
+    "docker:build": "cd dockerfiles && docker compose up --build",
     "docker:prune": "docker system prune --all --force"
   },
   "dependencies": {
@@ -29,5 +30,11 @@
     "drizzle-kit": "^0.20.14",
     "eslint": "^8.56.0",
     "node-gyp": "^10.0.1"
+  },
+  "name": "minitwizzy",
+  "module": "index.ts",
+  "type": "module",
+  "peerDependencies": {
+    "typescript": "^5.0.0"
   }
 }
