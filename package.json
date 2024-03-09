@@ -1,14 +1,15 @@
 {
   "scripts": {
     "dev": "bun run --hot src/index.ts",
-    "drop": "bun --bun drizzle-kit drop --config=drizzle.config.ts",
-    "generate": "bun --bun drizzle-kit generate:sqlite --config=drizzle.config.ts",
-    "push": "bun --bun drizzle-kit push:sqlite --config=drizzle.config.ts",
-    "migrate": "bun --bun ./src/database/migrate.ts",
-    "check": "bun --bun drizzle-kit check:sqlite --config=drizzle.config.ts",
-    "studio": "bun --bun drizzle-kit studio --port 3001 --verbose"
+    "drop": "bun drizzle-kit drop --config=drizzle.config.ts",
+    "generate": "bun drizzle-kit generate:sqlite --config=drizzle.config.ts",
+    "push": "bun drizzle-kit push:sqlite --config=drizzle.config.ts",
+    "migrate": "bun ./src/database/migrate.ts",
+    "check": "bun drizzle-kit check:sqlite --config=drizzle.config.ts",
+    "studio": "bun drizzle-kit studio --port 3001 --verbose"
   },
   "dependencies": {
+    "better-sqlite3": "^9.4.1",
     "drizzle-orm": "^0.29.3",
     "drizzle-zod": "^0.5.1",
     "hono": "^4.0.0",
