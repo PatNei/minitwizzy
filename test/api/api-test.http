@@ -1,0 +1,26 @@
+@hostname = localhost
+@port = 3000
+@host = {{hostname}}:{{port}}
+@baseurl = http://{{host}}
+@contentType = application/json
+@createdAt = {{$datetime iso8601}}
+@username = simulator
+@password = super_safe!
+
+###
+POST {{baseurl}}/register
+User-Agent: rest-client
+Content-Type: application/json
+
+"data" = {
+    "username": "test",
+    "email" : "test@test",
+    "pwd": "foo"
+}
+"params" = {"latest":1337}
+
+###
+
+GET {{baseurl}}/latest
+
+###

@@ -3,7 +3,9 @@
     "bun@latest",
     "python@latest",
     "poetry@latest",
-    "vagrant@latest"
+    "vagrant@latest",
+    "sqlite@latest",
+    "nodejs@latest"
   ],
   "env": {
     "DEVBOX_PYPROJECT_DIR": "$PWD/old_project"
@@ -14,8 +16,8 @@
       "cd old_project && poetry install && cd .."
     ],
     "scripts": {
-      "dev":    "bun run migrate && bun run dev",
-      "poetry": ["cd old_project && poetry shell && deactivate"],
+      "dev":       "bun run migrate && bun run dev",
+      "poetry":    ["cd old_project && poetry shell && deactivate"],
       "simulator": "cd old_project && poetry run python minitwizzy/minitwit_simulator.py 'http://localhost:3000'"
     }
   }

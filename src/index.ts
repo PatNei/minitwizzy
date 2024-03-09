@@ -4,7 +4,7 @@ import { prettyJSON } from "hono/pretty-json";
 import { Bindings } from "./util/authutil";
 import { logger } from "hono/logger";
 import { validator } from 'hono/validator'
-import { getLatestTweet } from "./repositories/latest-tweet-repository";
+import { getLatestAction } from "./repositories/latest-tweet-repository";
 import { registerSchema } from "./types/request-types";
 import { HTTPException } from 'hono/http-exception'
 import { createUser, getUserID } from "./repositories/user-repository";
@@ -36,10 +36,11 @@ app.onError((err,c) => {
 /** ROUTES */
 app.get("/", async (c) => {return c.json({"message":"niceness"},200)});
 app.get("/latest", async (c) => {
-    const latestTweet = await getLatestTweet()
-    return c.json({"latest": latestTweet?.tweetId ?? -1},200)}
+    const latestAction = await getLatestAction()
+    return c.json({"latest": latestAction?.actionId ?? -1},200)}
 );
 app.post("/register", validator('json',(value,c) =>{
+    console.log(value)
     const parsed = registerSchema.safeParse(value)
 
     if (!parsed.success){

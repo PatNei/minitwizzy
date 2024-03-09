@@ -1,13 +1,12 @@
 import { sqliteTable, integer } from "drizzle-orm/sqlite-core";
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 
-export const latestTweet = sqliteTable("latestTweet", {
-  id: integer("id").primaryKey().default(1),
-  tweetId: integer("tweetId").notNull(),
-  timestamp: integer("timestamp").notNull()
+export const latestAction = sqliteTable("LatestAction", {
+  id: integer("id").primaryKey().default(0),
+  actionId: integer("actionId").notNull(),
 });
 
-export type LatestTweet = typeof latestTweet.$inferSelect;
-export type InsertLatestTweet = typeof latestTweet.$inferInsert;
-export const insertLatestTweetSchema = createInsertSchema(latestTweet);
-export const selectLatestTweetSchema = createSelectSchema(latestTweet);
+export type LatestAction = typeof latestAction.$inferSelect;
+export type InsertLatestAction = typeof latestAction.$inferInsert;
+export const insertLatestActionSchema = createInsertSchema(latestAction);
+export const selectLatestActionSchema = createSelectSchema(latestAction);
