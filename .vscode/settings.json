@@ -1,6 +1,9 @@
 {
 	"python.analysis.autoImportCompletions": true,
 	"python.analysis.typeCheckingMode": "basic",
-	"python.analysis.extraPaths": ["./minitwizzy"],
+	"python.analysis.extraPaths": [
+		"./minitwizzy",
+		"./old_project/minitwizzy"
+	],
 	"editor.defaultFormatter": "esbenp.prettier-vscode"
 }
