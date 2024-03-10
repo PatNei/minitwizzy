@@ -10,10 +10,11 @@ import latestRoute from "./routes/api/latest-route";
 import messageRoute from "./routes/api/message-route";
 import registerRoute from "./routes/api/register-route";
 import indexPage from "./routes/frontend/index-page";
+import { Redis } from "ioredis";
 import { PORT_NUMBER } from "./constants/const";
-
+import { REDIS_CONNECTION_STRING } from "./constants/paths";
+export const redisClient = new Redis(REDIS_CONNECTION_STRING);
 /** HONO APP */
-
 const app = new Hono()
 	.use(logger(customHonoLogger))
 	.use(prettyJSON())
@@ -23,7 +24,7 @@ const app = new Hono()
 	})
 	/** Update Latest Id Middleware */
 	.use("/api/*", async (c, next) => {
-		await updateLatestActionMiddleware(c.req);
+		if (c.req.path !== "/api/latest") await updateLatestActionMiddleware(c.req);
 		await next();
 	})
 	.onError(async (err, c) => {
@@ -38,17 +39,8 @@ const routes = app
 	.route("/api/latest", latestRoute)
 	.route("/", indexPage);
 
+export type RPCType = typeof routes;
 export default {
 	port: PORT_NUMBER,
 	fetch: app.fetch,
 };
-export type RPCType = typeof routes;
-
-import { createClient } from "redis";
-
-export const redisClient = createClient({ url: "redis://localhost:6379"});
-
-(async () => {
-	redisClient.on("error", (err) => console.log(err));
-	await redisClient.connect();
-})();

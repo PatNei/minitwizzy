@@ -6,7 +6,7 @@
     "jsxImportSource": "hono/jsx",
     "baseUrl": "./",
     "target": "ESNext",
-    "moduleResolution": "NodeNext"
+    "moduleResolution": "NodeNext",
   },
   "types": [
     "bun-types" // add Bun global

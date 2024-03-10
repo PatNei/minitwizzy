@@ -1,10 +1,24 @@
 version: '3'
+name: redis-dev
 services:
   minitwizzy:
-    container_name: minitwizzy-test
+    container_name: minitwizzy-live
     restart: unless-stopped
     image: ghcr.io/patnei/minitwizzy:latest
-    ports:
-      - 2400:3000
     environment:
       - DB_ENV=${DB_PATH}
+    volumes:
+      - minitwizzy:${DB_PATH}
+    ports:
+      - 9000:3000
+  redis:
+    container_name: minitwizzy-redis
+    image: redis
+    ports:
+      - 9001:6379
+    volumes:
+      - ../../.conf/redis-conf:/usr/local/etc/redis
+networks:
+  - minitwizzy
+volumes:
+  minitwizzy:

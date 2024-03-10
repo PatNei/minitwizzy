@@ -5,8 +5,8 @@ import { customHonoLogger } from "./logging-middleware";
 
 export const updateLatestActionMiddleware = async (req: HonoRequest) => {
 	const latestId = req.query("latest");
+	if (!latestId) return;
 	if (
-		!latestId ||
 		(await updateLatestAction({ actionId: Number.parseInt(latestId) })) === -1
 	) {
 		customHonoLogger("Latest Id:", "Invalid query string param.");

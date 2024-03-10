@@ -2,115 +2,115 @@
   "lockfile_version": "1",
   "packages": {
     "bun@latest": {
-      "last_modified": "2024-02-05T02:15:44Z",
-      "resolved": "github:NixOS/nixpkgs/0a254180b4cad6be45aa46dce896bdb8db5d2930#bun",
+      "last_modified": "2024-02-26T19:46:43Z",
+      "resolved": "github:NixOS/nixpkgs/548a86b335d7ecd8b57ec617781f5e652ab0c38e#bun",
       "source": "devbox-search",
-      "version": "1.0.26",
+      "version": "1.0.29",
       "systems": {
         "aarch64-darwin": {
-          "store_path": "/nix/store/pw0sc8pmp2ic09z30cvf58qpjhqzfky3-bun-1.0.26"
+          "store_path": "/nix/store/vasy23jzcpk4vahmb76gs550gz5ibp7s-bun-1.0.29"
         },
         "aarch64-linux": {
-          "store_path": "/nix/store/vbq8n9v62p5cd5f6j2x808zh9yfvzny0-bun-1.0.26"
+          "store_path": "/nix/store/f669mpd7ini29ibwhvl7mi5d7vxpgvx3-bun-1.0.29"
         },
         "x86_64-linux": {
-          "store_path": "/nix/store/2l3i4sl1s2vfgsv1359i164ryqvc2991-bun-1.0.26"
+          "store_path": "/nix/store/jk432rp4sfm9y912yy071cxdx30bbhvm-bun-1.0.29"
         }
       }
     },
     "nodejs@latest": {
-      "last_modified": "2024-01-27T14:55:31Z",
-      "resolved": "github:NixOS/nixpkgs/160b762eda6d139ac10ae081f8f78d640dd523eb#nodejs_21",
+      "last_modified": "2024-02-24T23:06:34Z",
+      "resolved": "github:NixOS/nixpkgs/9a9dae8f6319600fa9aebde37f340975cab4b8c0#nodejs_21",
       "source": "devbox-search",
-      "version": "21.6.1",
+      "version": "21.6.2",
       "systems": {
         "aarch64-darwin": {
-          "store_path": "/nix/store/vj049qiv5cxhl4xp6vn09wd5jjg4z0cy-nodejs-21.6.1"
+          "store_path": "/nix/store/n9xcy53g63rk8vwb2yx5fb7i72rprpd1-nodejs-21.6.2"
         },
         "aarch64-linux": {
-          "store_path": "/nix/store/nyxyfn7nn685xgssfgdmg089hg1xg6ag-nodejs-21.6.1"
+          "store_path": "/nix/store/mqvmpikgnk7bxvi977ysd0z81bjpflzj-nodejs-21.6.2"
         },
         "x86_64-darwin": {
-          "store_path": "/nix/store/nz7adglsj80d1j6b3v1g91fqj07ja7q0-nodejs-21.6.1"
+          "store_path": "/nix/store/mdwxb1kdajvahhbpq3dhnaf3b01h7yb8-nodejs-21.6.2"
         },
         "x86_64-linux": {
-          "store_path": "/nix/store/nmfhr4pxgizjwdp6jnqa3l7f2bqplni3-nodejs-21.6.1"
+          "store_path": "/nix/store/va3sggfgfb709lm31bzvpjfyapjdy435-nodejs-21.6.2"
         }
       }
     },
     "poetry@latest": {
-      "last_modified": "2024-01-30T04:45:19Z",
+      "last_modified": "2024-02-29T01:10:36Z",
       "plugin_version": "0.0.4",
-      "resolved": "github:NixOS/nixpkgs/222c1940fafeda4dea161858ffe6ebfc853d3db5#poetry",
+      "resolved": "github:NixOS/nixpkgs/ec25c90d35d24e36c0af3b3d58a09542367ebbee#poetry",
       "source": "devbox-search",
-      "version": "1.7.1",
+      "version": "1.8.1",
       "systems": {
         "aarch64-darwin": {
-          "store_path": "/nix/store/j6b74g49f64qngvvs8ds32imad5yd44b-python3.11-poetry-1.7.1"
+          "store_path": "/nix/store/xwmp4k0ivvi728csl0k4wa768gfvyqfz-python3.11-poetry-1.8.1"
         },
         "aarch64-linux": {
-          "store_path": "/nix/store/fx71cnj77cqc62ws1b2h4jcvkbqfdh4y-python3.11-poetry-1.7.1"
+          "store_path": "/nix/store/ivf7jj6rgpk8i9lrcrrlqgl05hvjda1m-python3.11-poetry-1.8.1"
         },
         "x86_64-darwin": {
-          "store_path": "/nix/store/05yzp68x4ynli7v4k1n3d4ch1rsf9lmd-python3.11-poetry-1.7.1"
+          "store_path": "/nix/store/j3c2d8k9vhd7masa3k41n97s7vbfyzf3-python3.11-poetry-1.8.1"
         },
         "x86_64-linux": {
-          "store_path": "/nix/store/mlx3qmf9qs7a11gnvikbrqx8rlyqnnqc-python3.11-poetry-1.7.1"
+          "store_path": "/nix/store/xl3fh7zzi69fwa98avnglimw8kr24x23-python3.11-poetry-1.8.1"
         }
       }
     },
     "python@latest": {
-      "last_modified": "2024-01-27T14:55:31Z",
+      "last_modified": "2024-02-24T23:06:34Z",
       "plugin_version": "0.0.3",
-      "resolved": "github:NixOS/nixpkgs/160b762eda6d139ac10ae081f8f78d640dd523eb#python312",
+      "resolved": "github:NixOS/nixpkgs/9a9dae8f6319600fa9aebde37f340975cab4b8c0#python312",
       "source": "devbox-search",
-      "version": "3.12.1",
+      "version": "3.12.2",
       "systems": {
         "aarch64-darwin": {
-          "store_path": "/nix/store/k4fw0ywavh35j6bqvk61hzzzfw5ncd0i-python3-3.12.1"
+          "store_path": "/nix/store/15k5wj7q3psakinjs1czl6fdfghi5k6d-python3-3.12.2"
         },
         "aarch64-linux": {
-          "store_path": "/nix/store/cs94qsdyinzhglpna06g4m3avwzrny1m-python3-3.12.1"
+          "store_path": "/nix/store/ks2j3hf91drxzbizlaiyxhbzcjbp015v-python3-3.12.2"
         },
         "x86_64-darwin": {
-          "store_path": "/nix/store/g7gr0av2rkj57fqaklimdp769alxcfg1-python3-3.12.1"
+          "store_path": "/nix/store/x69mapgywbfgg8p4fdqy76lg0h9gf2kj-python3-3.12.2"
         },
         "x86_64-linux": {
-          "store_path": "/nix/store/ypbry1pg5zzl5prj35f5swzy1gir37ml-python3-3.12.1"
+          "store_path": "/nix/store/n3jf1lkdfakxskzsm4nlhss8mdgmcqhc-python3-3.12.2"
         }
       }
     },
     "sqlite@latest": {
-      "last_modified": "2024-02-08T11:55:47Z",
-      "resolved": "github:NixOS/nixpkgs/c0b7a892fb042ede583bdaecbbdc804acb85eabe#sqlite",
+      "last_modified": "2024-02-29T18:14:35Z",
+      "resolved": "github:NixOS/nixpkgs/b5f6e3881acf8ca8a35b8cdb8d4021e5bd469a4e#sqlite",
       "source": "devbox-search",
-      "version": "3.44.2",
+      "version": "3.45.1",
       "systems": {
         "aarch64-darwin": {
-          "store_path": "/nix/store/z759p3dx45p03nlk12hcssq1iwl1vm3j-sqlite-3.44.2-bin"
+          "store_path": "/nix/store/qbah6r1c3lv6nd1sh72z4w4n9wj6pqp1-sqlite-3.45.1-bin"
         },
         "aarch64-linux": {
-          "store_path": "/nix/store/5rvwbc0nbkdzk94skq9c9xzmn1fr65z4-sqlite-3.44.2-bin"
+          "store_path": "/nix/store/b24a3jn8jz7r09api8qximwpqxxas6cs-sqlite-3.45.1-bin"
         },
         "x86_64-darwin": {
-          "store_path": "/nix/store/qamiilzzl1l561js2p6qpayk3241n2mq-sqlite-3.44.2-bin"
+          "store_path": "/nix/store/i3kb0arxmf9yxwm3y3ibam7qcgk7m0xa-sqlite-3.45.1-bin"
         },
         "x86_64-linux": {
-          "store_path": "/nix/store/za82xraz7bqqb6drw3f38w1g3yq0ri31-sqlite-3.44.2-bin"
+          "store_path": "/nix/store/yxmqhaysyq861wbdnqbki4x4w05by70a-sqlite-3.45.1-bin"
         }
       }
     },
     "vagrant@latest": {
-      "last_modified": "2024-02-08T11:55:47Z",
-      "resolved": "github:NixOS/nixpkgs/c0b7a892fb042ede583bdaecbbdc804acb85eabe#vagrant",
+      "last_modified": "2024-02-26T10:27:36Z",
+      "resolved": "github:NixOS/nixpkgs/fcea2b6260dd566c28c894b4207a5f2b56c2cba3#vagrant",
       "source": "devbox-search",
       "version": "2.3.7",
       "systems": {
         "aarch64-linux": {
-          "store_path": "/nix/store/29457cvlb2i7gkcj5d1z6s77rmy9zwd7-vagrant-2.3.7"
+          "store_path": "/nix/store/13ryjq93r639fryrmmqxmszl0zp1mrhd-vagrant-2.3.7"
         },
         "x86_64-linux": {
-          "store_path": "/nix/store/048zzg74mhmd97ngrxn60ahikq9nwd9k-vagrant-2.3.7"
+          "store_path": "/nix/store/h4q3rn3skz2z3h9f587kj2p7i8q9bwl7-vagrant-2.3.7"
         }
       }
     }

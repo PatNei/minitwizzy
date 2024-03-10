@@ -1,14 +1,16 @@
 {
-  "packages": [
-    "bun@latest",
-    "python@latest",
-    "poetry@latest",
-    "vagrant@latest",
-    "sqlite@latest",
-    "nodejs@latest"
-  ],
+  "packages": {
+    "bun":"latest",
+    "python":"latest",
+    "poetry":"latest",
+    "vagrant":"latest",
+    "sqlite":"latest",
+    "nodejs":"latest"
+  }
+  ,
   "env": {
     "DEVBOX_PYPROJECT_DIR": "$PWD/old_project"
+
   },
   "shell": {
     "init_hook": [
@@ -16,7 +18,10 @@
       "cd old_project && poetry install && cd .."
     ],
     "scripts": {
-      "dev":       "bun run dev",
+      "redis:cli": "docker exec -it minitwizzy-redis-dev /bin/sh",
+      "redis:run": "cd dockerfiles/redis && docker compose down && docker compose up -d",
+      "redis:down": "cd dockerfiles/redis && docker compose down",
+      "dev":       "devbox run redis:run && bun run dev",
       "poetry":    ["cd old_project && poetry shell && deactivate"],
       "simulator": "cd old_project && poetry run python minitwizzy/minitwit_simulator.py \"http://localhost:3000/api\"",
       "simulator:live": "cd old_project && poetry run python minitwizzy/minitwit_simulator.py \"http://159.69.213.182:9000/api\"",
