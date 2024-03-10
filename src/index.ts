@@ -23,7 +23,7 @@ const app = new Hono()
 	})
 	/** Update Latest Id Middleware */
 	.use("/api/*", async (c, next) => {
-		await updateLatestActionMiddleware(c.req);
+		if (c.req.path !== "/api/latest") await updateLatestActionMiddleware(c.req);
 		await next();
 	})
 	.onError(async (err, c) => {
@@ -43,12 +43,3 @@ export default {
 	fetch: app.fetch,
 };
 export type RPCType = typeof routes;
-
-import { createClient } from "redis";
-
-export const redisClient = createClient({ url: "redis://localhost:6379"});
-
-(async () => {
-	redisClient.on("error", (err) => console.log(err));
-	await redisClient.connect();
-})();

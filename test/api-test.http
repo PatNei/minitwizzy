@@ -14,8 +14,8 @@ Connection: close
 Authorization: Basic c2ltdWxhdG9yOnN1cGVyX3NhZmUh
 
 {
-    "username": "{{username}}",
-    "email" : "{{username}}@test.dk",
+    "username": "{{username}}2",
+    "email" : "{{username}}2@test.dk",
     "pwd": "foo"
 }
 ###
@@ -34,6 +34,11 @@ Authorization: Basic c2ltdWxhdG9yOnN1cGVyX3NhZmUh
 ###
 
 GET {{baseurl}}/latest
+Authorization: Basic c2ltdWxhdG9yOnN1cGVyX3NhZmUh
+
+###
+
+GET http://159.69.213.182:9000/api/latest
 Authorization: Basic c2ltdWxhdG9yOnN1cGVyX3NhZmUh
 
 ###

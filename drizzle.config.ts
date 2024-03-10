@@ -7,4 +7,5 @@ export default {
 	dbCredentials: {
 		url: DB_PATH,
 	},
+	verbose: false,
 } satisfies Config;
