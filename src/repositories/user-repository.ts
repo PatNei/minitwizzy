@@ -22,7 +22,7 @@ export const getUser = async ({
 	username,
 }: Pick<User, "username">): Promise<userDTO | undefined> => {
 	const res = await checkCacheForUser(username);
-	if (res) return { userId: res.userId, username: res.username };
+	if (res) return res;
 	const user: User | undefined = (
 		await db.select().from(users).where(eq(users.username, username))
 	).pop();
@@ -44,32 +44,40 @@ export const createUser = async (user: Omit<User, "userId">) => {
 			.returning({
 				userId: users.userId,
 			})
+			.onConflictDoNothing()
 	).pop();
 	if (!userId) {
 		customHonoLogger("Drizzle:", "Could not create user!");
 		return;
 	}
-	cacheUser({ ...userId, ...user });
+	await cacheUser({ userId: userId.userId, ...user });
 	return userId;
 };
 
 const cacheUser = async (user: User) => {
-	const res = await redisClient.set(user.username, JSON.stringify(user));
+	const res = await redisClient.hset(user.username, user);
+	const username = user.username.toString();
+	customHonoLogger("CACHED USER ?", res.toString());
 	if (!res) {
-		customHonoLogger("redis:", `failed to cache ${user.username}`);
+		customHonoLogger(
+			"redis:",
+			`failed to cache user with username ${username}`,
+		);
 		return;
 	}
-	customHonoLogger("redis:", `cached username: ${user.username}`);
+	customHonoLogger("redis:", `cached user with username: ${username}`);
 	return res;
 };
 
 const checkCacheForUser = async (username: string) => {
-	const res = await redisClient.get(username);
+	const res = await redisClient.hgetall(username);
 	if (!res) {
 		customHonoLogger("redis:", `cache miss for username:${username}`);
 		return;
 	}
+	const user = res as {
+		[P in keyof User]: string;
+	};
 	customHonoLogger("redis:", `cache hit for username: ${username}`);
-	const user = JSON.parse(res) as User;
-	return { userId: user.userId, username: user.username };
+	return { userId: Number.parseInt(user.userId), username: user.username };
 };

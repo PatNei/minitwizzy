@@ -2,7 +2,7 @@ import { useState, type FC } from 'hono/jsx'
 import { Timeline } from './component/timeline';
 import {  getMessagesByUserId } from 'src/repositories/message-repository';
 import { userDTO } from 'src/repositories/user-repository';
-import { doesUserFollowById, followUserId, unfollowUserId } from 'src/repositories/follower-repository';
+import { doesUserFollowUserId, followUserId, unfollowUserId } from 'src/repositories/follower-repository';
 interface TimelineProps {
   loggedInUser: userDTO
   pageUserInformation: userDTO,
@@ -12,7 +12,7 @@ interface TimelineProps {
 
 export const UserTimeline: FC<TimelineProps> = async ({loggedInUser,pageUserInformation, isMyTimeline}:TimelineProps) => {
   const [currentPage,setCurrentPage] = useState(0) 
-  const [isFollowing,setIsFollowing] = useState(await doesUserFollowById({whoId:loggedInUser.userId,whomId:pageUserInformation.userId}) !== undefined)
+  const [isFollowing,setIsFollowing] = useState(await doesUserFollowUserId({whoId:loggedInUser.userId,whomId:pageUserInformation.userId}) !== undefined)
   const title = isMyTimeline ? "My Timeline" : `${pageUserInformation.username}'s Timeline`
   const [messages,setMessages] = useState(await getMessagesByUserId({userId:pageUserInformation.userId},100,currentPage))
 

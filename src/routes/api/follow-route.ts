@@ -5,9 +5,9 @@ import {
 	usernameToIdValidator,
 } from "src/middleware/validation-middleware";
 import {
-	doesUserFollowById,
+	doesUserFollowUserId,
 	followUserId,
-	getFollowersByUserId,
+	getFollowerUsernamesForUserId,
 	unfollowUserId,
 } from "src/repositories/follower-repository";
 import { getUserID } from "src/repositories/user-repository";
@@ -33,7 +33,7 @@ const app = new Hono()
 					} user as the user does not exist`,
 				});
 
-			const userIsAFollower = await doesUserFollowById({
+			const userIsAFollower = await doesUserFollowUserId({
 				whoId: userId,
 				whomId: whomId,
 			});
@@ -58,7 +58,7 @@ const app = new Hono()
 	.get("/:username", usernameToIdValidator, async (c) => {
 		const { userId } = c.req.valid("param");
 		const messageAmount = c.req.query("no");
-		const followers = await getFollowersByUserId(
+		const followers = await getFollowerUsernamesForUserId(
 			{ userId },
 			messageAmount ? Number.parseInt(messageAmount) : undefined,
 		);

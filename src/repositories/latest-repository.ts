@@ -51,7 +51,6 @@ const cacheLatestId = async ({ actionId }: Pick<LatestAction, "actionId">) => {
 };
 
 const getCachedLatestId = async () => {
-	redisClient.get("latestId");
 	const res = await redisClient.get("latestId");
 
 	if (!res) {

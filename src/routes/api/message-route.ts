@@ -8,7 +8,7 @@ import {
 } from "src/middleware/validation-middleware";
 import {
 	createMessage,
-	getMessages,
+	getGlobalMessages,
 	getMessagesByUserId,
 } from "src/repositories/message-repository";
 import {
@@ -19,7 +19,7 @@ import {
 const app = new Hono()
 	.get("/", reqValidatorQUERY(parsedMsgGetRequestSchema), async (c) => {
 		const { parsedNo, parsedOffset } = c.req.valid("query");
-		const messages = await getMessages(parsedNo, parsedOffset);
+		const messages = await getGlobalMessages(parsedNo, parsedOffset);
 		return c.json(messages, 200);
 	})
 	.get(
